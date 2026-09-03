@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /control-panel/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://uyutnydom.ru/sitemap.xml
