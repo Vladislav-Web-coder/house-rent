@@ -11,7 +11,7 @@ class ContractFileProvider
     private const CONTRACT_PATH = 'contracts/rental-agreement.pdf';
 
     // Имя файла, которое увидит клиент во вложении
-    private const CONTRACT_DISPLAY_NAME = 'Договор-аренды-УЮТНЫЙДОМ.pdf';
+    private const CONTRACT_DISPLAY_NAME = 'Договор-аренды-СказочнаяКарелия.pdf';
 
     /**
      * Использует Storage::path(), который корректно работает с любым диском

@@ -1,10 +1,10 @@
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="min-h-screen bg-[#faf7f0]">
         <Header />
 
         <div class="container mx-auto px-6 py-12 max-w-4xl">
             <!-- Кнопка назад -->
-            <router-link to="/" class="inline-flex items-center gap-2 text-[#77c4db] hover:text-[#5fb5d1] font-medium transition-colors mb-8">
+            <router-link to="/" class="inline-flex items-center gap-2 text-[#d18a2a] hover:text-[#b5741d] font-medium transition-colors mb-8">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
@@ -12,23 +12,23 @@
             </router-link>
 
             <!-- Заголовок -->
-            <h1 class="text-3xl md:text-4xl font-light text-[#283e46] mb-4">
+            <h1 class="text-3xl md:text-4xl font-light text-[#251d12] mb-4">
                 Политика конфиденциальности
             </h1>
 
-            <p class="text-sm text-gray-500 mb-8">
+            <p class="text-sm text-[#6e6459] mb-8">
                 Дата последнего обновления: {{ lastUpdated }}
             </p>
 
             <!-- Контент -->
-            <div class="prose prose-lg max-w-none text-[#666666] space-y-8">
+            <div class="prose prose-lg max-w-none text-[#6e6459] space-y-8">
 
                 <!-- 1. Общие положения -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">1. Общие положения</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">1. Общие положения</h2>
                     <p>
                         Настоящая Политика конфиденциальности (далее — «Политика») определяет общие условия обработки
-                        персональных данных пользователей (далее — «Пользователи») на сайте «УЮТНЫЙДОМ» (далее — «Сайт»),
+                        персональных данных пользователей (далее — «Пользователи») на сайте «СказочнаяКарелия» (далее — «Сайт»),
                         размещённом в информационно-телекоммуникационной сети «Интернет» и используемом для предоставления
                         услуг по краткосрочной аренде объектов недвижимости.
                     </p>
@@ -56,7 +56,7 @@
 
                 <!-- 2. Персональные данные, подлежащие обработке -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">2. Персональные данные, подлежащие обработке</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">2. Персональные данные, подлежащие обработке</h2>
                     <p>
                         В рамках использования Сайта, в том числе при отправке заявки на бронирование объекта недвижимости,
                         Оператор осуществляет обработку следующих персональных данных Пользователя:
@@ -84,7 +84,7 @@
 
                 <!-- 3. Цели обработки персональных данных -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">3. Цели обработки персональных данных</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">3. Цели обработки персональных данных</h2>
                     <p>Оператор обрабатывает персональные данные Пользователя в следующих целях:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li>приём, обработка и рассмотрение заявок Пользователей на бронирование объектов недвижимости;</li>
@@ -101,7 +101,7 @@
 
                 <!-- 4. Правовые основания обработки -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">4. Правовые основания обработки персональных данных</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">4. Правовые основания обработки персональных данных</h2>
                     <p>Правовыми основаниями обработки персональных данных являются:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li>согласие Пользователя на обработку персональных данных, выраженное путём отправки заявки на бронирование через Сайт;</li>
@@ -113,10 +113,10 @@
 
                 <!-- 5. Способы обработки -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">5. Способы обработки персональных данных</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">5. Способы обработки персональных данных</h2>
                     <p>
                         Оператор осуществляет следующие действия с персональными данными Пользователей: сбор, запись,
-                        систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование,
+                        систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использования,
                         передачу (предоставление, доступ), обезличивание, блокирование, удаление и уничтожение.
                     </p>
                     <p>
@@ -132,7 +132,7 @@
 
                 <!-- 6. Передача третьим лицам -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">6. Передача персональных данных третьим лицам</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">6. Передача персональных данных третьим лицам</h2>
                     <p>
                         Оператор не осуществляет продажу персональных данных Пользователей и не передаёт их третьим лицам,
                         за исключением следующих случаев:
@@ -152,7 +152,7 @@
 
                 <!-- 7. Трансграничная передача -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">7. Трансграничная передача персональных данных</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">7. Трансграничная передача персональных данных</h2>
                     <p>
                         Оператор не осуществляет трансграничную передачу персональных данных Пользователей.
                         Все персональные данные хранятся на серверах, расположенных на территории Российской Федерации.
@@ -161,7 +161,7 @@
 
                 <!-- 8. Сроки обработки -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">8. Сроки обработки персональных данных</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">8. Сроки обработки персональных данных</h2>
                     <p>
                         Персональные данные Пользователя обрабатываются Оператором в течение срока, необходимого для
                         достижения целей обработки, а также в течение срока, установленного требованиями законодательства
@@ -183,7 +183,7 @@
 
                 <!-- 9. Файлы cookie -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">9. Использование файлов cookie</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">9. Использование файлов cookie</h2>
                     <p>
                         Сайт может использовать файлы cookie — небольшие фрагменты данных, которые временно сохраняются
                         на устройстве Пользователя. Файлы cookie используются для обеспечения работоспособности Сайта,
@@ -197,7 +197,7 @@
 
                 <!-- 10. Права пользователей -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">10. Права и обязанности Пользователя</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">10. Права и обязанности Пользователя</h2>
                     <p>В соответствии с законодательством Российской Федерации Пользователь имеет право:</p>
                     <ul class="list-disc pl-6 space-y-2">
                         <li>получать информацию, касающуюся обработки его персональных данных;</li>
@@ -216,7 +216,7 @@
 
                 <!-- 11. Порядок взаимодействия -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">11. Порядок взаимодействия с Оператором</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">11. Порядок взаимодействия с Оператором</h2>
                     <p>
                         Любые вопросы, предложения, запросы и жалобы, связанные с обработкой персональных данных,
                         Пользователь может направить Оператору следующими способами:
@@ -224,11 +224,11 @@
                     <ul class="list-disc pl-6 space-y-2">
                         <li>
                             по телефону:
-                            <a href="tel:+79999999999" class="text-[#77c4db] hover:text-[#5fb5d1]">+7 (999) 999-99-99</a>;
+                            <a href="tel:+79999999999" class="text-[#d18a2a] hover:text-[#b5741d]">+7 (999) 999-99-99</a>;
                         </li>
                         <li>
                             по электронной почте:
-                            <a href="mailto:info@uyutnydom.ru" class="text-[#77c4db] hover:text-[#5fb5d1]">info@uyutnydom.ru</a>;
+                            <a href="mailto:info@uyutnydom.ru" class="text-[#d18a2a] hover:text-[#b5741d]">info@uyutnydom.ru</a>;
                         </li>
                         <li>через форму обратной связи в разделе «Поддержка» на Сайте (иконка в правом нижнем углу).</li>
                     </ul>
@@ -241,7 +241,7 @@
 
                 <!-- 12. Заключительные положения -->
                 <section>
-                    <h2 class="text-2xl font-medium text-[#283e46] mb-4">12. Заключительные положения</h2>
+                    <h2 class="text-2xl font-medium text-[#251d12] mb-4">12. Заключительные положения</h2>
                     <p>
                         Оператор вправе вносить изменения в настоящую Политику без предварительного уведомления
                         Пользователей. Новая редакция Политики вступает в силу с момента её размещения на Сайте,
@@ -249,7 +249,7 @@
                     </p>
                     <p>
                         Актуальная версия Политики всегда доступна по адресу:
-                        <router-link to="/policy" class="text-[#77c4db] hover:text-[#5fb5d1]">{{ currentUrl }}/policy</router-link>.
+                        <router-link to="/policy" class="text-[#d18a2a] hover:text-[#b5741d]">{{ currentUrl }}/policy</router-link>.
                     </p>
                     <p>
                         Продолжая пользоваться Сайтом после внесения изменений в Политику, Пользователь подтверждает
@@ -265,12 +265,12 @@
             </div>
 
             <!-- CTA -->
-            <div class="mt-16 bg-[#ebf7fb] rounded-2xl p-8 text-center">
-                <h2 class="text-2xl font-medium text-[#283e46] mb-4">Готовы к отдыху?</h2>
-                <p class="text-[#666666] mb-6">Выберите даты и забронируйте дом мечты на берегу Ладоги</p>
+            <div class="mt-16 bg-[#f6efe3] rounded-2xl p-8 text-center border border-[#e9a13b]/20">
+                <h2 class="text-2xl font-medium text-[#251d12] mb-4">Готовы к отдыху?</h2>
+                <p class="text-[#6e6459] mb-6">Выберите даты и забронируйте дом мечты на берегу Ладоги</p>
                 <router-link
                     to="/"
-                    class="inline-block bg-[#77c4db] hover:bg-[#5fb5d1] text-white px-8 py-4 rounded-full font-medium transition-colors"
+                    class="inline-block bg-[#e9a13b] hover:bg-[#d18a2a] text-[#1a1206] px-8 py-4 rounded-full font-semibold transition-colors"
                 >
                     Выбрать дом
                 </router-link>
@@ -278,9 +278,9 @@
         </div>
 
         <!-- Footer -->
-        <footer class="bg-[#283e46] text-white py-8 mt-16">
+        <footer class="bg-[#0c111c] text-white py-8 mt-16">
             <div class="container mx-auto px-6 text-center">
-                <p class="text-gray-400 text-sm">
+                <p class="text-[#a89f92] text-sm">
                     &copy; {{ new Date().getFullYear() }} УЮТНЫЙДОМ. Все права защищены.
                 </p>
             </div>
@@ -294,14 +294,12 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-// Автоматическая дата последнего обновления
 const lastUpdated = new Date().toLocaleDateString('ru-RU', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
 });
 
-// URL текущего сайта для отображения в тексте
 const currentUrl = typeof window !== 'undefined' ? window.location.origin : '';
 </script>
 

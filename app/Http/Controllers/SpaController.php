@@ -13,7 +13,7 @@ class SpaController extends Controller
     public function home()
     {
         return view('app', [
-            'title' => 'УЮТНЫЙДОМ — аренда домов на берегу Ладоги | Карелия',
+            'title' => 'Сказочная Карелия — аренда домов на берегу Ладоги | Карелия',
             'description' => 'Аренда комфортных домов и квартир на берегу Ладожского озера. Дома для всей семьи рядом с самыми интересными местами Карелии. Бронируйте онлайн!',
             'keywords' => 'аренда дома ладога, карелия отдых, дом у озера, аренда коттеджа ладожское озеро, отдых в карелии с детьми',
             'canonical' => url('/'),
@@ -36,7 +36,7 @@ class SpaController extends Controller
         $description = mb_substr($description, 0, 160) . '...';
 
         return view('app', [
-            'title' => "{$property->title} — УЮТНЫЙДОМ | Аренда на берегу Ладоги",
+            'title' => "{$property->title} — СказочнаяКарелия | Аренда на берегу Ладоги",
             'description' => $description,
             'keywords' => "{$property->title}, аренда {$this->getCategoryWord($property->category)}, ладога, карелия",
             'canonical' => url("/property/{$property->id}"),
@@ -54,8 +54,8 @@ class SpaController extends Controller
     public function policy()
     {
         return view('app', [
-            'title' => 'Политика конфиденциальности — УЮТНЫЙДОМ',
-            'description' => 'Политика конфиденциальности сайта УЮТНЫЙДОМ. Условия обработки персональных данных пользователей.',
+            'title' => 'Политика конфиденциальности — СказочнаяКарелия',
+            'description' => 'Политика конфиденциальности сайта СказочнаяКарелия. Условия обработки персональных данных пользователей.',
             'keywords' => 'политика конфиденциальности, персональные данные',
             'canonical' => url('/policy'),
             'organizationSchema' => $this->generateOrganizationSchema(), // ✅
@@ -68,7 +68,7 @@ class SpaController extends Controller
     public function notFound()
     {
         return response()->view('app', [
-            'title' => 'Страница не найдена — УЮТНЫЙДОМ',
+            'title' => 'Страница не найдена — СказочнаяКарелия',
             'description' => 'Запрашиваемая страница не существует.',
             'canonical' => url('/'),
             'organizationSchema' => $this->generateOrganizationSchema(),
@@ -83,7 +83,7 @@ class SpaController extends Controller
         return [
             '@context' => 'https://schema.org',
             '@type' => 'LodgingBusiness',
-            'name' => 'УЮТНЫЙДОМ',
+            'name' => 'СказочнаяКарелия',
             'description' => 'Аренда домов и квартир на берегу Ладожского озера в Карелии. Дома для всей семьи рядом с самыми интересными местами Карелии.',
             'url' => url('/'),
             'logo' => asset('images/logo.png'),
