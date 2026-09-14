@@ -11,15 +11,12 @@
                     alt="Спящий залив"
                     class="w-full h-full object-cover"
                 />
-                <!-- ✅ Лёгкое общее затемнение для светлого дневного фото -->
                 <div class="absolute inset-0 bg-[#0e1a24]/20"></div>
-                <!-- ✅ Градиент снизу цвета глубокой воды -->
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0e1a24]/90 via-[#0e1a24]/30 to-transparent"></div>
             </div>
 
             <div class="relative z-10 w-full">
                 <div class="container mx-auto px-4 md:px-6 pb-20 md:pb-28 pt-36 md:pt-52 text-center">
-                    <!-- ✅ Надзаголовок-акцент -->
                     <span class="inline-block text-[#e9a13b] tracking-[0.3em] md:tracking-[0.35em] uppercase text-[10px] md:text-sm font-semibold mb-4 md:mb-5">
                         Карелия · Берег Ладоги
                     </span>
@@ -39,42 +36,66 @@
                 </div>
             </div>
 
-            <!-- ✅ Стрелка скролла только на десктопе -->
             <div class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
                 <svg class="w-6 h-6 text-[#e9a13b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                 </svg>
             </div>
         </section>
-
         <!-- Features Section: тёмная секция цвета воды -->
         <section class="py-14 md:py-20 bg-[#0e1a24]">
             <div class="container mx-auto px-4 md:px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+
+                    <!-- ✅ Можно с питомцами: лапки -->
                     <div class="flex flex-col items-center text-center group">
-                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <ellipse cx="4.5" cy="10" rx="2" ry="2.4"/>
+                            <ellipse cx="9" cy="6.3" rx="2" ry="2.4"/>
+                            <ellipse cx="15" cy="6.3" rx="2" ry="2.4"/>
+                            <ellipse cx="19.5" cy="10" rx="2" ry="2.4"/>
+                            <path stroke-linejoin="round" d="M12 11c-2.5 0-4.6 1.8-5.6 3.9-.9 2-.3 4.6 2.1 4.6 1.4 0 2.4-.9 3.5-.9s2.1.9 3.5.9c2.4 0 3-2.6 2.1-4.6-1-2.1-3.1-3.9-5.6-3.9z"/>
                         </svg>
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">Можно с питомцами</span>
                     </div>
+
+                    <!-- ✅ Сауна и баня: пар над шайкой -->
                     <div class="flex flex-col items-center text-center group">
-                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" d="M8 3c-1.2 1.2 1.2 2.3 0 3.5"/>
+                            <path stroke-linecap="round" d="M12 3c-1.2 1.2 1.2 2.3 0 3.5"/>
+                            <path stroke-linecap="round" d="M16 3c-1.2 1.2 1.2 2.3 0 3.5"/>
+                            <path stroke-linejoin="round" d="M5.5 10h13l-1.3 8.3a2 2 0 01-2 1.7H8.8a2 2 0 01-2-1.7L5.5 10z"/>
+                            <path stroke-linecap="round" d="M6.3 14.5h11.4"/>
                         </svg>
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">Сауна и баня</span>
                     </div>
+
+                    <!-- ✅ SUP-доски: доска + весло -->
                     <div class="flex flex-col items-center text-center group">
-                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                            <!-- Доска (вид сверху): вытянутый овал с стрингером -->
+                            <path d="M9.5 2c2.2 3 3.3 6.2 3.3 9.5s-1.1 6.5-3.3 9.5c-2.2-3-3.3-6.2-3.3-9.5S7.3 5 9.5 2z"/>
+                            <path d="M9.5 5v13"/>
+                            <!-- Весло: Т-образная ручка, shaft, лопасть -->
+                            <path d="M16 4.5h3"/>
+                            <path d="M17.5 4.5v11"/>
+                            <path d="M17.5 15.5c1.3 0 2.1 1 2.1 2.3 0 1.6-.9 2.7-2.1 2.7s-2.1-1.1-2.1-2.7c0-1.3.8-2.3 2.1-2.3z"/>
                         </svg>
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">SUP-доски</span>
                     </div>
+
+                    <!-- ✅ Лодки и пирс: лодка с вёслами на волнах -->
                     <div class="flex flex-col items-center text-center group">
-                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linejoin="round" d="M4 14h16c-.5 2-1.5 3.5-3 4.5H7C5.5 17.5 4.5 16 4 14z"/>
+                            <path stroke-linecap="round" d="M9 14L6 10.5"/>
+                            <path stroke-linecap="round" d="M15 14l3-3.5"/>
+                            <path stroke-linecap="round" d="M3 21c1.5-1.2 3-1.2 4.5 0s3 1.2 4.5 0 3-1.2 4.5 0 3 1.2 4.5 0"/>
                         </svg>
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">Лодки и пирс</span>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -105,7 +126,7 @@
                     <p class="text-[#6e6459] text-base md:text-lg px-2">Продуманные до мелочей дома, тишина и карельская природа — всё, чтобы вы по-настоящему отдохнули</p>
                 </div>
 
-                <!-- ✅ Фильтры: flex-wrap для мобильных -->
+                <!-- ✅ Фильтры: "Дома" и "Квартиры" только если квартиры есть на бэке -->
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 md:mb-12">
                     <button
                         @click="updateFilter('all')"
@@ -117,6 +138,7 @@
                         Все дома
                     </button>
                     <button
+                        v-if="hasApartments"
                         @click="updateFilter('house')"
                         class="px-5 py-2 md:px-8 md:py-3 rounded-full border-2 transition-all font-medium text-sm md:text-base"
                         :class="filter === 'house'
@@ -126,6 +148,7 @@
                         Дома
                     </button>
                     <button
+                        v-if="hasApartments"
                         @click="updateFilter('apartment')"
                         class="px-5 py-2 md:px-8 md:py-3 rounded-full border-2 transition-all font-medium text-sm md:text-base"
                         :class="filter === 'apartment'
@@ -166,6 +189,9 @@
             </div>
         </section>
 
+        <!-- ✅ НОВАЯ СЕКЦИЯ: Интересное рядом (перед FAQ) -->
+        <InterestingNearby />
+
         <!-- FAQ Section -->
         <section id="faq" class="scroll-mt-[100px]">
             <Faq />
@@ -176,14 +202,12 @@
             <div class="container mx-auto px-4 md:px-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-12 mb-10 md:mb-12">
                     <div class="md:col-span-2">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-10 h-10 border-2 border-[#e9a13b] rounded-lg flex items-center justify-center text-[#e9a13b]">
-                                <img
-                                    src="/images/logo.png"
-                                    alt="Сказочная Карелия"
-                                    class="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full shadow-lg"
-                                />
-                            </div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <img
+                                src="/images/logo.png"
+                                alt="Сказочная Карелия"
+                                class="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full shadow-lg"
+                            />
                             <span class="flex flex-col leading-none">
                                 <span class="text-lg md:text-xl font-bold text-[#fdf8ef] tracking-wider uppercase">Сказочная</span>
                                 <span class="text-lg md:text-xl font-bold text-[#e9a13b] tracking-wider uppercase">Карелия</span>
@@ -202,9 +226,10 @@
                                     Дома
                                 </button>
                             </li>
+                            <!-- ✅ Вместо "Цены" — новая секция -->
                             <li>
-                                <button @click="scrollToSection('pricing')" class="hover:text-[#e9a13b] transition-colors">
-                                    Цены
+                                <button @click="scrollToSection('nearby')" class="hover:text-[#e9a13b] transition-colors">
+                                    Интересное рядом
                                 </button>
                             </li>
                             <li>
@@ -256,6 +281,7 @@ import PropertyCard from '@/components/PropertyCard.vue';
 import Faq from '@/components/Faq.vue';
 import FloatingSupport from '@/components/FloatingSupport.vue';
 import DateRangePicker from '@/components/DateRangePicker.vue';
+import InterestingNearby from '@/components/InterestingNearby.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -266,6 +292,11 @@ const filter = ref(route.query.category || 'all');
 
 // Выбранные даты в календаре
 const selectedDates = ref({ start: null, end: null });
+
+// ✅ Есть ли квартиры среди загруженных объектов
+const hasApartments = computed(() =>
+    store.properties.some(p => p.category === 'apartment')
+);
 
 // Даты, когда ВСЕ объекты заняты — блокируем в календаре
 const fullyBookedDates = computed(() => {
@@ -283,16 +314,22 @@ watch(() => route.query.category, (newCategory) => {
     }
 }, { immediate: true });
 
+// ✅ Защита: если квартир нет, а в URL пришёл фильтр apartment — сбрасываем
+watch(hasApartments, (exists) => {
+    if (!exists && filter.value === 'apartment') {
+        filter.value = 'all';
+        router.replace({ path: '/', query: {} }).catch(() => {});
+    }
+});
+
 // Реальная фильтрация объектов через store
 const filteredProperties = computed(() => {
     let properties = store.properties;
 
-    // Фильтр по категории
     if (filter.value !== 'all') {
         properties = properties.filter(p => p.category === filter.value);
     }
 
-    // Фильтр по выбранным датам (через метод store)
     if (selectedDates.value.start && selectedDates.value.end) {
         properties = properties.filter(property => {
             return store.isPropertyAvailable(
@@ -306,17 +343,14 @@ const filteredProperties = computed(() => {
     return properties;
 });
 
-// Функция для обновления фильтра (вызывается из кнопок на странице)
 function updateFilter(newFilter) {
     filter.value = newFilter;
 
-    // Обновляем URL без скролла (только query, без изменения пути)
     router.replace({
         path: '/',
         query: newFilter !== 'all' ? { category: newFilter } : {},
     }).catch(() => {});
 
-    // Скроллим к секции объектов вручную
     nextTick(() => {
         const section = document.getElementById('properties');
         if (section) {
@@ -340,12 +374,22 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Параллельная загрузка объектов и занятых дат
 onMounted(async () => {
     await Promise.all([
         store.fetchProperties(),
         store.fetchDisabledDates(),
     ]);
+
+    if (route.hash) {
+        nextTick(() => {
+            setTimeout(() => {
+                const el = document.querySelector(route.hash);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        });
+    }
 });
 </script>
 
@@ -358,7 +402,7 @@ html {
     scroll-margin-top: 100px;
 }
 
-#pricing {
+#nearby {
     scroll-margin-top: 100px;
 }
 

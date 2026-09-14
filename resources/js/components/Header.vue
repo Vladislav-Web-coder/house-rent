@@ -3,12 +3,12 @@
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-16 md:h-20">
 
-                <!--  PNG Логотип  -->
+                <!-- PNG Логотип -->
                 <router-link to="/" class="flex items-center gap-2.5 md:gap-3 group shrink-0" @click="closeAllDropdowns">
                     <img
                         src="/images/logo.png"
                         alt="Сказочная Карелия"
-                        class="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform duration-300 group-hover:scale-105"
+                        class="h-10 w-10 md:h-12 md:w-12 object-contain rounded-full shadow-md ring-1 ring-[#251d12]/10 transition-transform duration-300 group-hover:scale-105"
                     />
                     <span class="flex flex-col leading-none">
                         <span class="text-base md:text-lg font-bold text-[#251d12] tracking-wider uppercase">Сказочная</span>
@@ -51,7 +51,12 @@
                                     <span>Дома</span>
                                 </div>
                             </button>
-                            <button @click="navigateTo('/', 'apartment')" class="w-full text-left block px-4 py-3 text-[#251d12] hover:bg-[#f6efe3] hover:text-[#d18a2a] transition-colors">
+                            <!-- Квартиры: показываем ТОЛЬКО если они есть на бэке -->
+                            <button
+                                v-if="hasApartments"
+                                @click="navigateTo('/', 'apartment')"
+                                class="w-full text-left block px-4 py-3 text-[#251d12] hover:bg-[#f6efe3] hover:text-[#d18a2a] transition-colors"
+                            >
                                 <div class="flex items-center space-x-3">
                                     <svg class="w-5 h-5 text-[#e9a13b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
@@ -62,8 +67,8 @@
                         </div>
                     </div>
 
-                    <!-- Цены -->
-                    <button @click="navigateTo('/#pricing')" class="text-[#251d12] hover:text-[#d18a2a] font-medium transition-colors">
+                    <!-- Вопросы: ссылка на секцию FAQ -->
+                    <button @click="navigateTo('/#faq')" class="text-[#251d12] hover:text-[#d18a2a] font-medium transition-colors">
                         Вопросы
                     </button>
 
@@ -170,7 +175,7 @@
             </div>
         </div>
 
-        <!--  Мобильное меню: absolute, поверх контента -->
+        <!-- Мобильное меню: absolute, поверх контента -->
         <div
             v-show="showMobileMenu"
             class="md:hidden absolute top-full left-0 right-0 bg-[#fffdf8]/98 backdrop-blur-md border-b border-[#251d12]/10 shadow-lg animate-fade-in z-50"
@@ -196,13 +201,20 @@
                                 </svg>
                                 <span>Все объекты</span>
                             </button>
-                            <button @click="navigateTo('/', 'house')" class="w-full text-left flex items-center gap-3 px-4 py-2 text-[#6e6459] hover:text-[#251d12] hover:bg-[#f6efe3] rounded-lg transition-colors">
+                            <button
+                                v-if="hasApartments"
+                                @click="navigateTo('/', 'house')" class="w-full text-left flex items-center gap-3 px-4 py-2 text-[#6e6459] hover:text-[#251d12] hover:bg-[#f6efe3] rounded-lg transition-colors">
                                 <svg class="w-4 h-4 text-[#e9a13b] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                                 </svg>
                                 <span>Дома</span>
                             </button>
-                            <button @click="navigateTo('/', 'apartment')" class="w-full text-left flex items-center gap-3 px-4 py-2 text-[#6e6459] hover:text-[#251d12] hover:bg-[#f6efe3] rounded-lg transition-colors">
+                            <!-- Квартиры: показываем только если они есть -->
+                            <button
+                                v-if="hasApartments"
+                                @click="navigateTo('/', 'apartment')"
+                                class="w-full text-left flex items-center gap-3 px-4 py-2 text-[#6e6459] hover:text-[#251d12] hover:bg-[#f6efe3] rounded-lg transition-colors"
+                            >
                                 <svg class="w-4 h-4 text-[#e9a13b] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                 </svg>
@@ -211,8 +223,8 @@
                         </div>
                     </div>
 
-                    <!-- Цены -->
-                    <button @click="navigateTo('/#pricing')" class="w-full text-left flex items-center gap-3 px-4 py-3 text-[#251d12] hover:bg-[#f6efe3] hover:text-[#d18a2a] rounded-lg transition-colors font-medium">
+                    <!-- Вопросы: ссылка на секцию FAQ -->
+                    <button @click="navigateTo('/#faq')" class="w-full text-left flex items-center gap-3 px-4 py-3 text-[#251d12] hover:bg-[#f6efe3] hover:text-[#d18a2a] rounded-lg transition-colors font-medium">
                         <span>Вопросы</span>
                     </button>
 
@@ -262,7 +274,7 @@
             </div>
         </div>
 
-        <!--  Backdrop для закрытия при клике вне меню -->
+        <!-- Backdrop для закрытия при клике вне меню -->
         <div
             v-show="showMobileMenu"
             class="md:hidden fixed inset-0 top-full bg-black/20 z-40"
@@ -272,8 +284,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import MaxIcon from "./MaxIcon.vue";
 
 const router = useRouter();
@@ -282,8 +295,14 @@ const activeDropdown = ref(null);
 const showMobileMenu = ref(false);
 const mobileOpenSection = ref(null);
 
+// Храним информацию о наличии квартир (кэш на сессию)
+const apartmentsExist = ref(null); // null = не проверено
+
 const homesDropdownRef = ref(null);
 const supportDropdownRef = ref(null);
+
+// Вычисляемое свойство: показывать ли пункт "Квартиры"
+const hasApartments = computed(() => apartmentsExist.value === true);
 
 function toggleDropdown(name) {
     activeDropdown.value = activeDropdown.value === name ? null : name;
@@ -320,6 +339,33 @@ function navigateTo(path, category = null) {
     }, 150);
 }
 
+// Проверка наличия квартир на бэкенде (с кэшированием в sessionStorage)
+async function checkApartmentsExist() {
+    const cached = sessionStorage.getItem('apartmentsExist');
+    if (cached !== null) {
+        apartmentsExist.value = cached === 'true';
+        return;
+    }
+
+    try {
+        const response = await axios.get('/api/properties/has-apartments');
+        const exists = response.data.has_apartments === true;
+        apartmentsExist.value = exists;
+        sessionStorage.setItem('apartmentsExist', String(exists));
+    } catch (err) {
+        // Если эндпоинта нет — делаем фоллбек через полный список
+        try {
+            const response = await axios.get('/api/properties');
+            const properties = response.data.data || response.data;
+            const exists = Array.isArray(properties) && properties.some(p => p.category === 'apartment');
+            apartmentsExist.value = exists;
+            sessionStorage.setItem('apartmentsExist', String(exists));
+        } catch {
+            apartmentsExist.value = false;
+        }
+    }
+}
+
 function handleClickOutside(event) {
     const isOutsideHomes = homesDropdownRef.value && !homesDropdownRef.value.contains(event.target);
     const isOutsideSupport = supportDropdownRef.value && !supportDropdownRef.value.contains(event.target);
@@ -331,6 +377,7 @@ function handleClickOutside(event) {
 
 onMounted(() => {
     document.addEventListener('click', handleClickOutside);
+    checkApartmentsExist();
 });
 
 onUnmounted(() => {

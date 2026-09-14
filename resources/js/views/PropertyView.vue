@@ -14,7 +14,7 @@
             </router-link>
         </div>
 
-        <div v-else-if="property" class="pb-24 xl:pb-20">
+        <div v-else-if="property" class="pb-16 md:pb-20">
             <!-- Хлебные крошки -->
             <div class="bg-white border-b border-[#251d12]/8">
                 <div class="container mx-auto px-4 md:px-6 py-3 md:py-4">
@@ -30,8 +30,6 @@
             <div class="container mx-auto px-4 md:px-6 mt-4 md:mt-8 mb-6 md:mb-12">
                 <div class="max-w-3xl md:max-w-5xl xl:max-w-6xl mx-auto">
                     <div class="relative aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/9] overflow-hidden bg-[#0e1a24] rounded-xl md:rounded-2xl group">
-
-                        <!-- ✅ Видео: без оверлеев снизу — нативные контролы полностью доступны -->
                         <video
                             v-if="currentMedia?.type === 'video'"
                             :key="currentMedia.id"
@@ -46,7 +44,7 @@
                             Ваш браузер не поддерживает воспроизведение видео.
                         </video>
 
-                        <!-- Кнопка полноэкранного просмотра для видео (сверху, не мешает) -->
+                        <!-- Кнопка полноэкранного просмотра для видео -->
                         <button
                             v-if="currentMedia?.type === 'video'"
                             @click="openLightbox"
@@ -82,7 +80,7 @@
                             </div>
                         </div>
 
-                        <!-- ✅ Стрелки: ТОЛЬКО для фото (не мешают видео) -->
+                        <!-- Стрелки: ТОЛЬКО для фото -->
                         <button v-if="property.gallery && property.gallery.length > 1 && currentMedia?.type !== 'video'" @click.stop="prevSlide"
                                 class="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-9 h-9 md:w-12 md:h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100 z-10">
                             <svg class="w-4 h-4 md:w-6 md:h-6 text-[#251d12]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +94,7 @@
                             </svg>
                         </button>
 
-                        <!-- ✅ Точки-индикаторы: ТОЛЬКО для фото (не перекрывают прогресс-бар) -->
+                        <!-- Точки-индикаторы: ТОЛЬКО для фото -->
                         <div v-if="property.gallery && property.gallery.length > 1 && currentMedia?.type !== 'video'" class="absolute bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 flex space-x-1.5 md:space-x-2 z-10">
                             <button v-for="(media, index) in property.gallery" :key="media.id" @click.stop="switchSlide(index)"
                                     class="transition-all duration-300 rounded-full"
@@ -104,7 +102,7 @@
                             </button>
                         </div>
 
-                        <!-- Счётчик: остаётся сверху для всех типов (не мешает контролам) -->
+                        <!-- Счётчик -->
                         <div v-if="property.gallery && property.gallery.length > 1" class="absolute top-3 right-3 md:top-6 md:right-6 bg-[#0e1a24]/70 backdrop-blur-sm px-2.5 py-1 md:px-4 md:py-2 text-[10px] md:text-sm font-medium text-[#fdf8ef] rounded-lg flex items-center gap-1.5 md:gap-2 z-10">
                             <svg v-if="currentMedia?.type === 'video'" class="w-3 h-3 md:w-4 md:h-4 text-[#e9a13b]" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"/>
@@ -116,8 +114,12 @@
                         </div>
                     </div>
 
-                    <!-- Миниатюры: основная навигация для видео -->
-                    <div v-if="property.gallery && property.gallery.length > 1" class="flex space-x-2 md:space-x-3 mt-2 md:mt-4 overflow-x-auto pb-2 scrollbar-hide">
+                    <!-- Миниатюры -->
+                    <div
+                        v-if="property.gallery && property.gallery.length > 1"
+                        ref="thumbsContainer"
+                        class="flex space-x-2 md:space-x-3 mt-2 md:mt-4 overflow-x-auto pb-2 scrollbar-hide"
+                    >
                         <button
                             v-for="(media, index) in property.gallery"
                             :key="media.id"
@@ -169,6 +171,8 @@
             <div class="container mx-auto px-4 md:px-6">
                 <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-12">
                     <div class="xl:col-span-8 space-y-10 xl:space-y-12">
+
+                        <!-- ✅ 1. Заголовок и характеристики (первыми) -->
                         <div>
                             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
                                 <div>
@@ -186,7 +190,6 @@
                                 </span>
                             </div>
 
-                            <!-- ✅ Характеристики: 2 колонки на мобильных -->
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mt-6 md:mt-8 pt-6 md:pt-8 border-t border-[#251d12]/10">
                                 <div class="text-center p-3 md:p-4 bg-[#f5f2ec] rounded-xl">
                                     <div class="text-2xl md:text-3xl font-medium text-[#251d12] mb-1">{{ (property.max_adults || 0) + (property.max_children || 0) }}</div>
@@ -207,11 +210,51 @@
                             </div>
                         </div>
 
+                        <!-- ✅ 2. О доме: сворачиваемое описание -->
                         <div>
                             <h2 class="text-xl md:text-2xl lg:text-3xl font-medium text-[#251d12] mb-4 md:mb-6">О доме</h2>
-                            <div class="prose prose-lg max-w-none text-[#6e6459] leading-relaxed property-description" v-html="property.description"></div>
+
+                            <div class="relative">
+                                <!-- Обёртка с ограничением высоты -->
+                                <div
+                                    ref="descriptionRef"
+                                    class="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+                                    :style="{ maxHeight: descriptionExpanded ? fullDescriptionHeight + 'px' : COLLAPSED_HEIGHT + 'px' }"
+                                >
+                                    <!-- HTML-описание (из rich-редактора) -->
+                                    <div
+                                        v-if="descriptionIsHtml"
+                                        class="prose prose-lg max-w-none text-[#6e6459] leading-relaxed property-description"
+                                        v-html="property.description"
+                                    ></div>
+                                    <!-- Plain text: сохраняем пробелы и переносы -->
+                                    <div
+                                        v-else
+                                        class="text-[#6e6459] leading-relaxed whitespace-pre-wrap text-base md:text-lg"
+                                    >{{ property.description }}</div>
+                                </div>
+
+                                <!-- Градиентное затемнение внизу, когда свёрнуто -->
+                                <div
+                                    v-if="!descriptionExpanded && descriptionOverflows"
+                                    class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none"
+                                ></div>
+                            </div>
+
+                            <!-- Кнопка развернуть / свернуть -->
+                            <button
+                                v-if="descriptionOverflows"
+                                @click="descriptionExpanded = !descriptionExpanded"
+                                class="mt-3 inline-flex items-center gap-2 text-[#d18a2a] hover:text-[#b5741d] font-medium transition-colors"
+                            >
+                                {{ descriptionExpanded ? 'Свернуть' : 'Читать далее' }}
+                                <svg class="w-4 h-4 transition-transform duration-300" :class="descriptionExpanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
                         </div>
 
+                        <!-- ✅ 3. Расположение -->
                         <div>
                             <h2 class="text-xl md:text-2xl lg:text-3xl font-medium text-[#251d12] mb-4 md:mb-6">Расположение</h2>
                             <YandexMap
@@ -243,7 +286,78 @@
             </div>
         </div>
 
-        <!-- ✅ Мобильная нижняя панель с ценой и CTA -->
+        <!-- ✅ ФУТЕР: как на главной странице -->
+        <footer class="bg-[#0c111c] text-white pt-12 md:pt-16 pb-28 xl:pb-16">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-12 mb-10 md:mb-12">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center gap-3 mb-6">
+                            <img
+                                src="/images/logo.png"
+                                alt="Сказочная Карелия"
+                                class="h-12 w-12 md:h-14 md:w-14 object-contain rounded-full shadow-lg"
+                            />
+                            <span class="flex flex-col leading-none">
+                                <span class="text-lg md:text-xl font-bold text-[#fdf8ef] tracking-wider uppercase">Сказочная</span>
+                                <span class="text-lg md:text-xl font-bold text-[#e9a13b] tracking-wider uppercase">Карелия</span>
+                            </span>
+                        </div>
+                        <p class="text-[#a89f92] leading-relaxed max-w-md">
+                            Премиальная недвижимость для вашего комфорта. Дома для всей семьи на берегу Ладожского озера.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold mb-6 tracking-wider text-[#fdf8ef]">НАВИГАЦИЯ</h4>
+                        <ul class="space-y-3 text-[#a89f92]">
+                            <li>
+                                <button @click="goToSection('properties')" class="hover:text-[#e9a13b] transition-colors">
+                                    Дома
+                                </button>
+                            </li>
+                            <li>
+                                <button @click="goToSection('nearby')" class="hover:text-[#e9a13b] transition-colors">
+                                    Интересное рядом
+                                </button>
+                            </li>
+                            <li>
+                                <button @click="goToSection('faq')" class="hover:text-[#e9a13b] transition-colors">
+                                    Вопросы
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold mb-6 tracking-wider text-[#fdf8ef]">КОНТАКТЫ</h4>
+                        <div class="space-y-3 text-[#a89f92]">
+                            <p>
+                                <a href="tel:+79999999999" class="hover:text-[#e9a13b] transition-colors">
+                                    +7 (999) 999-99-99
+                                </a>
+                            </p>
+                            <p>
+                                <a href="mailto:info@uyutnydom.ru" class="hover:text-[#e9a13b] transition-colors">
+                                    info@uyutnydom.ru
+                                </a>
+                            </p>
+                            <p class="text-sm">Ежедневно 9:00-21:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-[#fdf8ef]/10 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-[#a89f92] text-sm">
+                        &copy; {{ new Date().getFullYear() }} Сказочная Карелия. Все права защищены.
+                    </p>
+                    <div class="flex space-x-6 text-sm text-[#a89f92]">
+                        <router-link to="/policy" class="hover:text-[#e9a13b] transition-colors">Политика конфиденциальности</router-link>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Мобильная нижняя панель с ценой и CTA -->
         <div v-if="property && !isLoading" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-sm border-t border-[#251d12]/10 px-4 py-3 xl:hidden shadow-[0_-4px_20px_rgba(37,29,18,0.08)]">
             <div class="flex items-center justify-between gap-4">
                 <div class="min-w-0">
@@ -262,13 +376,13 @@
             </div>
         </div>
 
-        <FloatingSupport />
+        <FloatingSupport raised />
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import Header from '@/components/Header.vue';
 import BookingForm from '@/components/BookingForm.vue';
@@ -278,11 +392,20 @@ import YandexMap from "@/components/YandexMap.vue";
 import Lightbox from '@/components/Lightbox.vue';
 
 const route = useRoute();
+const router = useRouter();
 const property = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 const currentSlide = ref(0);
 const lightboxOpen = ref(false);
+const thumbsContainer = ref(null);
+
+// ✅ Сворачивание описания
+const COLLAPSED_HEIGHT = 320; // высота свёрнутого блока, px
+const descriptionRef = ref(null);
+const descriptionExpanded = ref(false);
+const descriptionOverflows = ref(false);
+const fullDescriptionHeight = ref(0);
 
 const currentMedia = computed(() => {
     if (property.value?.gallery?.length > 0) {
@@ -298,6 +421,19 @@ const currentMedia = computed(() => {
     }
     return null;
 });
+
+// ✅ Определяем, содержит ли описание HTML-теги
+const descriptionIsHtml = computed(() => {
+    return /<[a-z!\/][^>]*>/i.test(property.value?.description || '');
+});
+
+// ✅ Замер реальной высоты описания и нужно ли сворачивать
+function measureDescription() {
+    const el = descriptionRef.value;
+    if (!el) return;
+    fullDescriptionHeight.value = el.scrollHeight;
+    descriptionOverflows.value = el.scrollHeight > COLLAPSED_HEIGHT + 40;
+}
 
 function pauseCurrentVideo() {
     const currentVideo = document.querySelector('.video-player');
@@ -329,13 +465,11 @@ function handleImageError(event) {
     event.target.src = '/images/fallback-property.jpg';
 }
 
-// ✅ Форматирование цены для мобильной панели
 function formatPrice(price) {
     if (!price) return '0';
     return new Intl.NumberFormat('ru-RU').format(price);
 }
 
-// ✅ Скролл к форме бронирования на мобильных
 function scrollToBooking() {
     const el = document.getElementById('booking');
     if (el) {
@@ -343,18 +477,30 @@ function scrollToBooking() {
     }
 }
 
+// ✅ Переход к секциям главной из футера
+function goToSection(sectionId) {
+    router.push({ path: '/', hash: `#${sectionId}` }).catch(() => {});
+}
+
 function openLightbox() {
     lightboxOpen.value = true;
 }
+
 async function loadProperty() {
     isLoading.value = true;
     error.value = null;
     currentSlide.value = 0;
+    descriptionExpanded.value = false;
 
     try {
         const response = await axios.get(`/api/properties/${route.params.id}`);
         property.value = response.data.data;
         window.scrollTo({ top: 0, behavior: 'instant' });
+
+        // Замеряем описание после рендера
+        nextTick(() => {
+            measureDescription();
+        });
     } catch (err) {
         error.value = err.response?.status === 404
             ? 'Объект не найден.'
@@ -370,8 +516,35 @@ watch(() => route.params.id, (newId) => {
     }
 });
 
+watch(currentSlide, (index) => {
+    nextTick(() => {
+        scrollThumbIntoView(index);
+    });
+});
+
+function scrollThumbIntoView(index) {
+    const container = thumbsContainer.value;
+    if (!container) return;
+
+    const thumb = container.children[index];
+    if (!thumb) return;
+
+    const target = thumb.offsetLeft - container.clientWidth / 2 + thumb.clientWidth / 2;
+    container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+}
+
+// Перезамер при изменении размера окна (текст переносится иначе)
+function onResize() {
+    measureDescription();
+}
+
 onMounted(() => {
     loadProperty();
+    window.addEventListener('resize', onResize);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', onResize);
 });
 </script>
 

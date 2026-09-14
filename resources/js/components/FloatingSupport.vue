@@ -1,17 +1,20 @@
 <template>
-    <div class="fixed bottom-6 right-6 z-50">
+    <div
+        class="fixed right-4 md:right-6 z-50"
+        :class="raised ? 'bottom-24 xl:bottom-6' : 'bottom-4 md:bottom-6'"
+    >
 
-        <!-- Кнопка открытия -->
+        <!-- Кнопка открытия: янтарная -->
         <button
             v-if="!isOpen"
             @click="isOpen = true"
-            class="group bg-[#77c4db] hover:bg-[#283e46] text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+            class="group bg-[#e9a13b] hover:bg-[#d18a2a] text-[#1a1206] w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110"
         >
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
             </svg>
 
-            <span class="absolute inset-0 rounded-full bg-[#77c4db] animate-ping opacity-20"></span>
+            <span class="absolute inset-0 rounded-full bg-[#e9a13b] animate-ping opacity-20"></span>
         </button>
 
         <!-- Окно с ссылками -->
@@ -19,20 +22,20 @@
             v-if="isOpen"
             class="bg-white rounded-2xl shadow-2xl overflow-hidden w-80 animate-slide-up"
         >
-            <!-- Заголовок -->
-            <div class="bg-[#283e46] p-6 text-white">
+            <!-- Заголовок: тёплый графит -->
+            <div class="bg-[#251d12] p-6 text-white">
                 <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-xl font-bold">Нужна помощь?</h3>
+                    <h3 class="text-xl font-bold text-[#fdf8ef]">Нужна помощь?</h3>
                     <button
                         @click="isOpen = false"
-                        class="text-white/80 hover:text-white transition-colors"
+                        class="text-[#fdf8ef]/80 hover:text-[#e9a13b] transition-colors"
                     >
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
-                <p class="text-white/90 text-sm">Мы на связи 24/7. Выберите удобный способ связи:</p>
+                <p class="text-[#e5ddcd] text-sm">Мы на связи. Выберите удобный способ связи:</p>
             </div>
 
             <!-- Ссылки на мессенджеры -->
@@ -42,7 +45,7 @@
                 <a
                     href="https://t.me/your_telegram_username"
                     target="_blank"
-                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#ebf7fb] transition-colors group"
+                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#f6efe3] transition-colors group"
                 >
                     <div class="w-12 h-12 bg-[#229ED9] rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -50,10 +53,10 @@
                         </svg>
                     </div>
                     <div class="flex-1">
-                        <div class="font-semibold text-[#283e46]">Telegram</div>
-                        <div class="text-sm text-[#666666]">Написать в Telegram</div>
+                        <div class="font-semibold text-[#251d12]">Telegram</div>
+                        <div class="text-sm text-[#6e6459]">Написать в Telegram</div>
                     </div>
-                    <svg class="w-5 h-5 text-[#666666] group-hover:text-[#77c4db] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-[#6e6459] group-hover:text-[#e9a13b] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
@@ -62,7 +65,7 @@
                 <a
                     href="https://wa.me/79999999999"
                     target="_blank"
-                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#ebf7fb] transition-colors group"
+                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#f6efe3] transition-colors group"
                 >
                     <div class="w-12 h-12 bg-[#25D366] rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -70,10 +73,10 @@
                         </svg>
                     </div>
                     <div class="flex-1">
-                        <div class="font-semibold text-[#283e46]">WhatsApp</div>
-                        <div class="text-sm text-[#666666]">Написать в WhatsApp</div>
+                        <div class="font-semibold text-[#251d12]">WhatsApp</div>
+                        <div class="text-sm text-[#6e6459]">Написать в WhatsApp</div>
                     </div>
-                    <svg class="w-5 h-5 text-[#666666] group-hover:text-[#25D366] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-[#6e6459] group-hover:text-[#e9a13b] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
@@ -82,16 +85,16 @@
                 <a
                     href="https://max.ru/u/your_max_username"
                     target="_blank"
-                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#ebf7fb] transition-colors group"
+                    class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#f6efe3] transition-colors group"
                 >
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-sm">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform shadow-sm border border-[#251d12]/10">
                         <MaxIcon :size="32" />
                     </div>
                     <div class="flex-1">
-                        <div class="font-semibold text-[#283e46]">MAX</div>
-                        <div class="text-sm text-[#666666]">Написать в MAX</div>
+                        <div class="font-semibold text-[#251d12]">MAX</div>
+                        <div class="text-sm text-[#6e6459]">Написать в MAX</div>
                     </div>
-                    <svg class="w-5 h-5 text-[#666666] group-hover:text-[#77c4db] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-[#6e6459] group-hover:text-[#e9a13b] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
@@ -99,8 +102,8 @@
             </div>
 
             <!-- Футер -->
-            <div class="px-4 pb-4 pt-2 border-t border-gray-100">
-                <p class="text-xs text-[#666666] text-center">
+            <div class="px-4 pb-4 pt-2 border-t border-[#251d12]/10">
+                <p class="text-xs text-[#6e6459] text-center">
                     Обычно отвечаем в течение 15 минут
                 </p>
             </div>
@@ -112,6 +115,14 @@
 <script setup>
 import { ref } from 'vue';
 import MaxIcon from "./MaxIcon.vue";
+
+// Проп: поднять кнопку над нижней панелью (страница объекта)
+const props = defineProps({
+    raised: {
+        type: Boolean,
+        default: false,
+    },
+});
 
 const isOpen = ref(false);
 </script>

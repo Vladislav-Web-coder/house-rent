@@ -37,6 +37,13 @@ Route::middleware('throttle:property-views')->group(function () {
         'disabledDates',
     ]);
 
+    Route::get('/properties/has-apartments', function() {
+        $exists = \App\Models\Property::where('category', 'apartament')
+            ->where('is_visible', true)
+            ->exists();
+        return response()->json($exists);
+    });
+
     Route::get('/properties/{property}', [
         \App\Http\Controllers\Api\PropertyDetailController::class,
         'show',
