@@ -40,6 +40,7 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import { DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
+import { parseIsoDate, toDateStr, nightsText as declineNights, formatDateDisplay } from '@/utils/date';
 
 const props = defineProps({
     propertyId: { type: Number, required: true },
@@ -51,8 +52,8 @@ const emit = defineEmits(['update:checkIn', 'update:checkOut']);
 
 // Внутреннее состояние
 const internalRange = ref({
-    start: props.checkIn ? new Date(props.checkIn) : null,
-    end: props.checkOut ? new Date(props.checkOut) : null,
+    start: parseIsoDate(props.checkIn),
+    end: parseIsoDate(props.checkOut),
 });
 
 // Занятые даты (будут загружены с сервера)
@@ -69,8 +70,8 @@ watch(() => props.propertyId, () => {
 
 // Синхронизация: родитель → компонент
 watch([() => props.checkIn, () => props.checkOut], ([newIn, newOut]) => {
-    const newStart = newIn ? new Date(newIn) : null;
-    const newEnd = newOut ? new Date(newOut) : null;
+    const newStart = parseIsoDate(newIn);
+    const newEnd = parseIsoDate(newOut);
     if (!datesEqual(internalRange.value.start, newStart) || !datesEqual(internalRange.value.end, newEnd)) {
         internalRange.value = { start: newStart, end: newEnd };
     }
@@ -100,17 +101,13 @@ async function loadDisabledDates() {
         if (response.ok) {
             const dates = await response.json();
             disabledDates.value = dates.map(dateStr => ({
-                start: new Date(dateStr),
-                end: new Date(dateStr),
+                start: parseIsoDate(dateStr),
+                end: parseIsoDate(dateStr),
             }));
         }
     } catch (error) {
         console.error('Ошибка загрузки занятых дат:', error);
     }
-}
-
-function toDateStr(d) {
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 function datesEqual(a, b) {
@@ -121,23 +118,11 @@ function datesEqual(a, b) {
 
 const nightsCount = computed(() => {
     if (!internalRange.value.start || !internalRange.value.end) return 0;
-    const start = internalRange.value.start;
-    const end = internalRange.value.end;
-    return Math.ceil(Math.abs(end - start) / (1000 * 60 * 60 * 24));
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    return Math.round(Math.abs(internalRange.value.end - internalRange.value.start) / MS_PER_DAY);
 });
 
-const nightsText = computed(() => {
-    const count = nightsCount.value;
-    if (count === 1) return 'ночь';
-    if (count >= 2 && count <= 4) return 'ночи';
-    return 'ночей';
-});
-
-function formatDateDisplay(date) {
-    if (!date) return '';
-    const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
-}
+const nightsText = computed(() => declineNights(nightsCount.value));
 
 function clearDates() {
     internalRange.value = { start: null, end: null };

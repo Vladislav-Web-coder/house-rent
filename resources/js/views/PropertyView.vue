@@ -383,7 +383,9 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+import { fetchProperty } from '@/api';
+import { formatPrice } from '@/utils/format';
+import { useGallery } from '@/composables/useGallery';
 import Header from '@/components/Header.vue';
 import BookingForm from '@/components/BookingForm.vue';
 import Faq from '@/components/Faq.vue';

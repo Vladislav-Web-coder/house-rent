@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import { fetchProperties, fetchDisabledDates } from '@/api';
 
 export const usePropertiesStore = defineStore('properties', {
     state: () => ({
@@ -61,8 +61,7 @@ export const usePropertiesStore = defineStore('properties', {
 
             this.loading = true;
             try {
-                const response = await axios.get('/api/properties');
-                this.properties = response.data.data;
+                this.properties = await fetchProperties();
             } catch (err) {
                 this.error = err.message;
                 console.error('Ошибка загрузки объектов:', err);
@@ -78,8 +77,7 @@ export const usePropertiesStore = defineStore('properties', {
             if (Object.keys(this.disabledDates).length > 0) return;
 
             try {
-                const response = await axios.get('/api/properties/disabled-dates');
-                this.disabledDates = response.data.data;
+                this.disabledDates = await fetchDisabledDates();
             } catch (err) {
                 console.error('Ошибка загрузки занятых дат:', err);
             }

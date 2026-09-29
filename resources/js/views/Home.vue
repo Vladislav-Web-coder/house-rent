@@ -276,6 +276,7 @@
 import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { usePropertiesStore } from '@/stores/propertiesStore';
+import { parseIsoDate, formatDateDisplay } from '@/utils/date';
 import Header from '@/components/Header.vue';
 import PropertyCard from '@/components/PropertyCard.vue';
 import Faq from '@/components/Faq.vue';
@@ -301,8 +302,8 @@ const hasApartments = computed(() =>
 // Даты, когда ВСЕ объекты заняты — блокируем в календаре
 const fullyBookedDates = computed(() => {
     return store.fullyBookedDates.map(dateStr => ({
-        start: new Date(dateStr + 'T00:00:00'),
-        end: new Date(dateStr + 'T00:00:00'),
+        start: parseIsoDate(dateStr),
+        end: parseIsoDate(dateStr),
     }));
 });
 
@@ -357,13 +358,6 @@ function updateFilter(newFilter) {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
-}
-
-function formatDateDisplay(dateStr) {
-    if (!dateStr) return '';
-    const [year, month, day] = dateStr.split('-');
-    const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    return `${parseInt(day, 10)} ${months[parseInt(month, 10) - 1]} ${year}`;
 }
 
 function scrollToSection(sectionId) {
