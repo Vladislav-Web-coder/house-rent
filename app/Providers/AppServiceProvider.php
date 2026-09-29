@@ -12,7 +12,6 @@ use App\Models\Property;
 use App\Models\SyncedBooking;
 use App\Observers\BookingObserver;
 use App\Observers\BookingRequestObserver;
-use App\Observers\MediaObserver;
 use App\Observers\PriceRelatedObserver;
 use App\Observers\PropertyObserver;
 use App\Observers\SyncedBookingObserver;
@@ -21,17 +20,12 @@ use App\Services\CacheService;
 use App\Services\ContractFileProvider;
 use App\Services\PricingService;
 use App\Services\VideoOptimizer;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 
 class AppServiceProvider extends ServiceProvider
 {
-    protected $listen = [
-        MediaHasBeenAddedEvent::class => [
-            ProcessVideoMedia::class,
-        ],
-    ];
     /**
      * Register any application services.
      */
@@ -49,6 +43,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Обработка видео после добавления медиа.
+        // ВАЖНО: событие в spatie/laravel-medialibrary v11 называется MediaHasBeenAdded,
+        // а слушатель регистрируется через Event::listen — protected $listen работает
+        // только при event discovery (у нас shouldDiscoverEvents() = false).
+        Event::listen(MediaHasBeenAdded::class, [ProcessVideoMedia::class, 'handle']);
+
         Property::observe(PropertyObserver::class);
         Booking::observe(BookingObserver::class);
         BookingRequest::observe(BookingRequestObserver::class);

@@ -10,13 +10,18 @@ class PropertyResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $firstMedia = $this->getFirstMedia('gallery');
+        // Берём медиа из уже загруженного отношения (см. PropertyController::index),
+        // чтобы не генерировать N+1 запросов на каждый объект в списке.
+        $galleryMedia = $this->relationLoaded('media')
+            ? $this->media->sortBy('order_column')->values()
+            : $this->getMedia('gallery');
+
+        $firstMedia = $galleryMedia->first();
         $mainMediaType = $firstMedia && str_starts_with($firstMedia->mime_type, 'video/')
             ? 'video'
             : 'image';
 
-        $gallery = $this->getMedia('gallery')
-            ->sortBy('order_column')
+        $gallery = $galleryMedia
             ->map(function ($media) {
                 $isVideo = str_starts_with($media->mime_type, 'video/');
                 $hasThumb = $media->hasGeneratedConversion('thumb_800x600');

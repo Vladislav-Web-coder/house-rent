@@ -14,6 +14,11 @@ class BookingRequestController
         StoreBookingRequestRequest $request,
         CreateBookingRequestAction $action
     ): JsonResponse {
+        // Скрытые объекты не должны быть доступны через публичный API
+        if (!$property->is_visible) {
+            return response()->json(['message' => 'Объект не найден'], 404);
+        }
+
         try {
             $bookingRequest = $action->execute($property, $request->validated());
 

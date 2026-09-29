@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Enums\BookingRequestStatus;
 use App\Models\Property;
 use App\Models\BookingRequest;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Notifications\NewBookingRequestNotification;
 use App\Services\BookingNotificationService;
 use App\Services\PricingService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
 class CreateBookingRequestAction
@@ -35,22 +37,33 @@ class CreateBookingRequestAction
         $pricingData = $this->pricingService->calculateTotal($property, $checkIn, $checkOut);
         $totalPrice = $pricingData['final_total'];
 
-        // Создаем заявку в БД
-        $bookingRequest = BookingRequest::create([
-            'property_id' => $property->id,
-            'guest_name' => $data['guest_name'],
-            'guest_phone' => $data['guest_phone'],
-            'guest_email' => $data['guest_email'],
-            'country_code' => $data['country_code'] ?? '+7',
-            'contact_method' => $data['contact_method'] ?? 'telegram',
-            'check_in' => $checkIn,
-            'check_out' => $checkOut,
-            'adults' => $data['adults'] ?? 1,
-            'children' => $data['children'] ?? 0,
-            'total_price' => $totalPrice,
-            'comment' => $data['comment'] ?? null,
-            'status' => 'pending',
-        ]);
+        // Защита от гонки: блокируем строку объекта на время проверки и создания заявки,
+        // чтобы два параллельных запроса на одни даты не создали две заявки.
+        $bookingRequest = DB::transaction(function () use ($property, $data, $checkIn, $checkOut, $totalPrice) {
+            Property::whereKey($property->id)->lockForUpdate()->first();
+
+            // Повторяем проверку доступности уже внутри транзакции с блокировкой
+            $availability = $this->availabilityAction->execute($property, $checkIn, $checkOut);
+            if (!$availability['available']) {
+                throw new \DomainException($availability['message']);
+            }
+
+            return BookingRequest::create([
+                'property_id' => $property->id,
+                'guest_name' => $data['guest_name'],
+                'guest_phone' => $data['guest_phone'],
+                'guest_email' => $data['guest_email'],
+                'country_code' => $data['country_code'] ?? '+7',
+                'contact_method' => $data['contact_method'] ?? 'telegram',
+                'check_in' => $checkIn,
+                'check_out' => $checkOut,
+                'adults' => $data['adults'] ?? 1,
+                'children' => $data['children'] ?? 0,
+                'total_price' => $totalPrice,
+                'comment' => $data['comment'] ?? null,
+                'status' => BookingRequestStatus::PENDING,
+            ]);
+        });
 
         $this->notificationService->notifyClientAboutNewRequest($bookingRequest);
 

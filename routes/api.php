@@ -54,7 +54,9 @@ Route::middleware('throttle:property-views')->group(function () {
 Route::get('/properties/{property}/calendar/{token}.ics', [
     \App\Http\Controllers\Api\IcalController::class,
     'export',
-])->name('api.ical.export');
+])
+    ->middleware('throttle:ical-export')
+    ->name('api.ical.export');
 
 // ========== Админские маршруты (защита через auth) ==========
 // Календарь объекта — без отдельного rate limit, защита через auth

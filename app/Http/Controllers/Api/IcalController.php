@@ -12,8 +12,13 @@ class IcalController
     public function export(Property $property, string $token)
     {
         // 1. Проверка секретного токена (защита от посторонних)
-        if (!$property->ical_export_token || $token !== $property->ical_export_token) {
+        if (!$property->ical_export_token || !hash_equals($property->ical_export_token, $token)) {
             abort(403, 'Неверный токен календаря');
+        }
+
+        // Скрытый объект — выгружать нечего
+        if (!$property->is_visible) {
+            abort(404);
         }
 
         // 2. Создаем календарь
@@ -48,7 +53,7 @@ class IcalController
             ->get();
 
         foreach ($requests as $request) {
-            $events[] = Event::create('Резерв: ' . $request->guest_name)
+            $events[] = Event::create('Занято')
                 ->startsAt($request->check_in)
                 ->endsAt($request->check_out)
                 ->fullDay()
