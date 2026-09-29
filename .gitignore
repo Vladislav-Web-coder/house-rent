@@ -1,1 +1,30 @@
-(empty)
+# Laravel .gitignore
+
+/vendor/
+/node_modules/
+/public/build/
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+
+# Секреты и локальные конфиги — никогда не коммитить
+.env
+.env.*
+!.env.example
+auth.json
+
+# Логи и данные
+/storage/logs/*.log
+/storage/framework/cache/data/*
+!storage/framework/cache/data/.gitkeep
+/storage/framework/sessions/*
+!storage/framework/sessions/.gitkeep
+/storage/app/private/*
+!storage/app/private/.gitkeep
+
+# IDE / ОС
+.idea
+.vscode
+*.swp
+.DS_Store

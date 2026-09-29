@@ -15,5 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Для API-запросов всегда отдаём JSON, включая fallback-маршрут:
+        // несуществующий /api/... путь должен возвращать 404 в JSON,
+        // а не HTML-страницу SPA (иначе мониторинг и клиенты ломаются).
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+            if ($request->is('api/*') || $request->expectsJson()) {
+                return response()->json(['message' => 'Not Found'], 404);
+            }
+        });
     })->create();

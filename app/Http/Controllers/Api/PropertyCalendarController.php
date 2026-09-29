@@ -17,8 +17,21 @@ class PropertyCalendarController extends Controller
 
     public function show(Property $property, Request $request)
     {
-        $startDate = $request->get('start', now()->startOfMonth()->toDateString());
-        $endDate = $request->get('end', now()->endOfMonth()->toDateString());
+        // Ограничиваем период: иначе запрос с start/end на много лет создаст
+        // огромный CarbonPeriod и «положит» сервер (DoS). Максимум — год вперёд.
+        $floor = now()->startOfDay();
+        $ceil = now()->addYear();
+
+        $startDate = $request->get('start')
+            ? Carbon::parse($request->get('start'))->max($floor)
+            : now()->startOfMonth();
+        $endDate = $request->get('end')
+            ? Carbon::parse($request->get('end'))->min($ceil)
+            : $ceil;
+
+        if ($endDate->lt($startDate)) {
+            return response()->json(['message' => 'Некорректный период'], 422);
+        }
 
         $period = CarbonPeriod::create($startDate, $endDate);
         $calendarData = [];

@@ -58,15 +58,15 @@ Route::get('/properties/{property}/calendar/{token}.ics', [
     ->middleware('throttle:ical-export')
     ->name('api.ical.export');
 
-// ========== Админские маршруты (защита через auth) ==========
+// ========== Админские маршруты (защита через auth + роль admin) ==========
 // Календарь объекта — без отдельного rate limit, защита через auth
 Route::get('/control-panel/properties/{property}/calendar', [
     \App\Http\Controllers\Api\PropertyCalendarController::class,
     'show',
-])->middleware('auth');
+])->middleware(['auth', \App\Http\Middleware\EnsureUserIsAdmin::class]);
 
 // Занятые даты для админки
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', \App\Http\Middleware\EnsureUserIsAdmin::class])->group(function () {
     Route::get('/control-panel/properties/{property}/disabled-dates', [
         \App\Http\Controllers\Admin\PropertyCalendarController::class,
         'disabledDates',
