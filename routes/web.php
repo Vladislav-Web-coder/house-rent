@@ -10,7 +10,7 @@ Route::get('/policy', [SpaController::class, 'policy'])->name('policy');
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 Route::fallback([SpaController::class, 'notFound']);
 
-Route::middleware(['web', 'auth'])->prefix('control-panel')->group(function () {
+Route::middleware(['web', 'auth', \App\Http\Middleware\EnsureUserIsAdmin::class])->prefix('control-panel')->group(function () {
     Route::get('/contract/download', function () {
         $path = 'contracts/rental-agreement.pdf';
 
