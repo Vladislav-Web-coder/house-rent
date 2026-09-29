@@ -13,8 +13,8 @@
                     <span v-else class="text-sm text-[#666666]">Не выбрано</span>
                 </div>
                 <div v-if="checkInStr && checkOutStr" class="flex flex-wrap items-center justify-between gap-2 text-sm">
-                    <span class="text-[#666666] shrink-0">{{ getNightsCount() }} {{ getNightsText() }}</span>
-                    <span class="font-medium text-[#283e46] whitespace-nowrap">{{ getWeekDays() }}</span>
+                    <span class="text-[#666666] shrink-0">{{ nightsCount }} {{ nightsText }}</span>
+                    <span class="font-medium text-[#283e46] whitespace-nowrap">{{ getWeekDays(checkInStr, checkOutStr) }}</span>
                 </div>
             </div>
 
@@ -110,7 +110,7 @@
             <div v-if="pricingData" class="border-2 border-gray-200 rounded-xl overflow-hidden">
                 <div class="bg-[#283e46] text-white px-6 py-4">
                     <h4 class="font-semibold text-lg">Расчет стоимости</h4>
-                    <p class="text-white/70 text-sm">{{ pricingData.nights }} {{ getNightsTextPricing(pricingData.nights) }}</p>
+                    <p class="text-white/70 text-sm">{{ pricingData.nights }} {{ declineNights(pricingData.nights) }}</p>
                 </div>
                 <div class="p-6 space-y-4">
                     <div v-for="(group, index) in pricingData.price_groups" :key="index"
@@ -119,7 +119,7 @@
                         <div class="flex-1">
                             <div v-if="group.source" class="font-medium text-[#283e46]">{{ group.source }}</div>
                             <div class="text-sm text-[#666666]">
-                                {{ group.nights }} {{ getNightsTextPricing(group.nights) }} × {{ formatPrice(group.price_per_night) }} ₽
+                                {{ group.nights }} {{ declineNights(group.nights) }} × {{ formatPrice(group.price_per_night) }} ₽
                             </div>
                         </div>
                         <div class="font-semibold text-[#283e46] text-lg">{{ formatPrice(group.subtotal) }} ₽</div>
@@ -175,7 +175,9 @@ import { ref, computed, watch } from 'vue';
 import { useForm } from 'vee-validate';
 import { z } from 'zod';
 import { toTypedSchema } from '@vee-validate/zod';
-import axios from 'axios';
+import { calculatePrice, submitBookingRequest } from '@/api';
+import { parseIsoDate, getNightsCount, nightsText as declineNights, formatDateDisplay, formatDateShort, getWeekDays } from '@/utils/date';
+import { formatPrice } from '@/utils/format';
 import { AsYouType, getExampleNumber } from 'libphonenumber-js';
 import examples from 'libphonenumber-js/mobile/examples';
 import DateRangePicker from "./DateRangePicker.vue";
@@ -214,8 +216,8 @@ const showDetailedBreakdown = ref(false);
 
 const disabledDates = computed(() => {
     return props.unavailableDates.map(range => ({
-        start: new Date(range.start),
-        end: new Date(range.end)
+        start: parseIsoDate(range.start),
+        end: parseIsoDate(range.end)
     }));
 });
 
@@ -249,7 +251,7 @@ const validationSchema = toTypedSchema(
         }, { message: `Максимальное количество гостей: ${maxTotalGuests}`, path: ['adults'] })
         .refine((data) => {
             if (!data.check_in || !data.check_out) return true;
-            return new Date(data.check_out) > new Date(data.check_in);
+            return parseIsoDate(data.check_out) > parseIsoDate(data.check_in);
         }, { message: 'Дата выезда должна быть позже даты заезда', path: ['check_out'] })
 );
 
@@ -353,50 +355,8 @@ watch(countryCode, () => {
     guestPhone.value = '';
 });
 
-function formatPrice(price) {
-    return new Intl.NumberFormat('ru-RU').format(price);
-}
-
-function formatDateDisplay(dateStr) {
-    if (!dateStr) return '';
-    const [year, month, day] = dateStr.split('-');
-    const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    return `${parseInt(day, 10)} ${months[parseInt(month, 10) - 1]} ${year}`;
-}
-
-function formatDateShort(dateStr) {
-    if (!dateStr) return '';
-    const [year, month, day] = dateStr.split('-');
-    return `${parseInt(day, 10)}.${month}`;
-}
-
-function getNightsCount() {
-    if (!checkInStr.value || !checkOutStr.value) return 0;
-    const [y1, m1, d1] = checkInStr.value.split('-').map(Number);
-    const [y2, m2, d2] = checkOutStr.value.split('-').map(Number);
-    return Math.ceil(Math.abs(new Date(y2, m2 - 1, d2) - new Date(y1, m1 - 1, d1)) / (1000 * 60 * 60 * 24));
-}
-
-function getNightsText() {
-    const count = getNightsCount();
-    if (count === 1) return 'ночь';
-    if (count >= 2 && count <= 4) return 'ночи';
-    return 'ночей';
-}
-
-function getNightsTextPricing(count) {
-    if (count === 1) return 'ночь';
-    if (count >= 2 && count <= 4) return 'ночи';
-    return 'ночей';
-}
-
-function getWeekDays() {
-    if (!checkInStr.value || !checkOutStr.value) return '';
-    const [y1, m1, d1] = checkInStr.value.split('-').map(Number);
-    const [y2, m2, d2] = checkOutStr.value.split('-').map(Number);
-    const weekDays = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
-    return `${weekDays[new Date(y1, m1 - 1, d1).getDay()]} — ${weekDays[new Date(y2, m2 - 1, d2).getDay()]}`;
-}
+const nightsCount = computed(() => getNightsCount(checkInStr.value, checkOutStr.value));
+const nightsText = computed(() => declineNights(nightsCount.value));
 
 watch([checkInStr, checkOutStr], async ([newCheckIn, newCheckOut]) => {
     serverError.value = '';
@@ -405,10 +365,7 @@ watch([checkInStr, checkOutStr], async ([newCheckIn, newCheckOut]) => {
     if (!newCheckIn || !newCheckOut) return;
 
     try {
-        const response = await axios.post(`/api/properties/${props.propertyId}/calculate-price`, {
-            check_in: newCheckIn, check_out: newCheckOut
-        });
-        pricingData.value = response.data.pricing;
+        pricingData.value = await calculatePrice(props.propertyId, newCheckIn, newCheckOut);
     } catch (error) {
         if (error.response?.status === 422) {
             console.error('Ошибки валидации:', error.response.data.errors);
@@ -428,7 +385,7 @@ const onSubmit = handleSubmit(async (values) => {
     try {
         const fullPhoneNumber = currentDialCode.value + ' ' + values.guest_phone;
 
-        const response = await axios.post(`/api/properties/${props.propertyId}/booking-requests`, {
+        const response = await submitBookingRequest(props.propertyId, {
             ...values,
             guest_phone: fullPhoneNumber,
             country_code: countryCode.value,
@@ -437,7 +394,7 @@ const onSubmit = handleSubmit(async (values) => {
             check_in: values.check_in,
             check_out: values.check_out
         });
-        serverSuccess.value = response.data.message;
+        serverSuccess.value = response.message;
     } catch (error) {
         if (error.response?.status === 422) {
             console.error('Ошибки валидации:', error.response.data.errors);

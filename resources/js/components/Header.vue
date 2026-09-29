@@ -286,7 +286,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { fetchHasApartments, fetchProperties } from '@/api';
 import MaxIcon from "./MaxIcon.vue";
 
 const router = useRouter();
@@ -348,15 +348,12 @@ async function checkApartmentsExist() {
     }
 
     try {
-        const response = await axios.get('/api/properties/has-apartments');
-        const exists = response.data.has_apartments === true;
-        apartmentsExist.value = exists;
-        sessionStorage.setItem('apartmentsExist', String(exists));
+        apartmentsExist.value = await fetchHasApartments();
+        sessionStorage.setItem('apartmentsExist', String(apartmentsExist.value));
     } catch (err) {
         // Если эндпоинта нет — делаем фоллбек через полный список
         try {
-            const response = await axios.get('/api/properties');
-            const properties = response.data.data || response.data;
+            const properties = await fetchProperties();
             const exists = Array.isArray(properties) && properties.some(p => p.category === 'apartment');
             apartmentsExist.value = exists;
             sessionStorage.setItem('apartmentsExist', String(exists));

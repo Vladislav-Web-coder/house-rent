@@ -159,6 +159,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { formatPrice } from '@/utils/format';
 
 const props = defineProps({
     property: {
@@ -248,11 +249,6 @@ function prevSlide() {
     if (galleryItems.value.length > 0) {
         currentSlide.value = (currentSlide.value - 1 + galleryItems.value.length) % galleryItems.value.length;
     }
-}
-
-function formatPrice(price) {
-    if (!price) return '0';
-    return new Intl.NumberFormat('ru-RU').format(price);
 }
 </script>
 

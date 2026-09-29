@@ -52,6 +52,7 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import { DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
+import { parseIsoDate, toDateStr, getNightsCount, nightsText as declineNights, formatDateDisplay } from '@/utils/date';
 
 const props = defineProps({
     modelValue: {
@@ -72,16 +73,16 @@ const calendarKey = ref(0);
 let isAdjusting = false;
 
 const internalRange = ref({
-    start: props.modelValue.start ? new Date(props.modelValue.start + 'T00:00:00') : null,
-    end: props.modelValue.end ? new Date(props.modelValue.end + 'T00:00:00') : null,
+    start: parseIsoDate(props.modelValue.start),
+    end: parseIsoDate(props.modelValue.end),
 });
 
 // Синхронизация: родитель → компонент
 watch(() => props.modelValue, (newVal) => {
     if (isAdjusting) return;
 
-    const newStart = newVal.start ? new Date(newVal.start + 'T00:00:00') : null;
-    const newEnd = newVal.end ? new Date(newVal.end + 'T00:00:00') : null;
+    const newStart = parseIsoDate(newVal.start);
+    const newEnd = parseIsoDate(newVal.end);
 
     if (!datesEqual(internalRange.value.start, newStart) || !datesEqual(internalRange.value.end, newEnd)) {
         internalRange.value = { start: newStart, end: newEnd };
@@ -122,36 +123,15 @@ watch(internalRange, (newVal) => {
     });
 }, { deep: true });
 
-function toDateStr(d) {
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
 function datesEqual(a, b) {
     if (!a && !b) return true;
     if (!a || !b) return false;
     return a.getTime() === b.getTime();
 }
 
-const nightsCount = computed(() => {
-    if (!props.modelValue.start || !props.modelValue.end) return 0;
-    const [y1, m1, d1] = props.modelValue.start.split('-').map(Number);
-    const [y2, m2, d2] = props.modelValue.end.split('-').map(Number);
-    return Math.ceil(Math.abs(new Date(y2, m2 - 1, d2) - new Date(y1, m1 - 1, d1)) / (1000 * 60 * 60 * 24));
-});
+const nightsCount = computed(() => getNightsCount(props.modelValue.start, props.modelValue.end));
 
-const nightsText = computed(() => {
-    const count = nightsCount.value;
-    if (count === 1) return 'ночь';
-    if (count >= 2 && count <= 4) return 'ночи';
-    return 'ночей';
-});
-
-function formatDateDisplay(dateStr) {
-    if (!dateStr) return '';
-    const [year, month, day] = dateStr.split('-');
-    const months = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
-    return `${parseInt(day, 10)} ${months[parseInt(month, 10) - 1]} ${year}`;
-}
+const nightsText = computed(() => declineNights(nightsCount.value));
 
 function clearDates() {
     isAdjusting = true;
