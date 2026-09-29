@@ -23,6 +23,11 @@ class PricingController
         PricingService $pricingService,
         CheckAvailabilityAction $availabilityAction
     ): JsonResponse {
+        // Скрытые объекты не должны быть доступны через публичный API
+        if (!$property->is_visible) {
+            return response()->json(['message' => 'Объект не найден'], 404);
+        }
+
         $request->validate([
             'check_in' => 'required|date|date_format:Y-m-d',
             'check_out' => 'required|date|date_format:Y-m-d|after:check_in',

@@ -26,8 +26,11 @@ class PropertyController
                 ->toArray();
         });
 
+        // with('media') без ограничения по коллекции привёл бы к N+1 внутри
+        // PropertyResource (getFirstMedia/getMedia делают отдельные запросы).
+        // Eager-loadим именно галерею в нужном порядке.
         $properties = Property::whereIn('id', $propertyIds)
-            ->with(['media'])
+            ->with(['media' => fn ($q) => $q->where('collection_name', 'gallery')->orderBy('order_column')])
             ->get();
 
         $properties = $properties->sortBy(function ($property) use ($propertyIds) {

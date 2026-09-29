@@ -267,12 +267,9 @@ class BookingRequestResource extends Resource
                 // Статус
                 Forms\Components\Select::make('status')
                     ->label('Статус')
-                    ->options([
-                        'pending' => 'Ожидает подтверждения',
-                        'approved' => 'Одобрена',
-                        'rejected' => 'Отклонена',
-                        'cancelled' => 'Отменена',
-                    ])
+                    ->options(collect(\App\Enums\BookingRequestStatus::cases())
+                        ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
+                        ->all())
                     ->default('pending')
                     ->required()
                     ->columnSpanFull(),
@@ -360,12 +357,9 @@ class BookingRequestResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->label('Статус')
-                    ->options([
-                        'pending' => 'Ожидает подтверждения',
-                        'approved' => 'Одобрена',
-                        'rejected' => 'Отклонена',
-                        'cancelled' => 'Отменена',
-                    ]),
+                    ->options(collect(\App\Enums\BookingRequestStatus::cases())
+                        ->mapWithKeys(fn ($case) => [$case->value => $case->label()])
+                        ->all()),
 
                 Tables\Filters\SelectFilter::make('property_id')
                     ->label('Объект')

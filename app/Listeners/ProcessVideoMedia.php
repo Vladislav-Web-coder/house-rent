@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Services\VideoOptimizer;
 use Illuminate\Support\Facades\Log;
-use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProcessVideoMedia
@@ -13,7 +13,7 @@ class ProcessVideoMedia
         protected VideoOptimizer $videoOptimizer
     ) {}
 
-    public function handle(MediaHasBeenAddedEvent $event): void
+    public function handle(MediaHasBeenAdded $event): void
     {
         $media = $event->media;
 

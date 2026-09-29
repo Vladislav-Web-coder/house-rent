@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Providers;
+namespace App\Providers;
 
 use Carbon\Laravel\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -48,6 +48,16 @@ class RateLimiterServiceProvider extends ServiceProvider
                     return response()->json([
                         'message' => 'Слишком много запросов. Подождите немного.',
                     ], 429);
+                });
+        });
+
+        // Лимит для выгрузки .ics-календарей (токен в URL — защита только от угадывания,
+        // но не от перебора/DDoS по известному токену)
+        RateLimiter::for('ical-export', function (Request $request) {
+            return Limit::perMinute(30)
+                ->by($request->ip())
+                ->response(function () {
+                    return response('Слишком много запросов календаря. Подождите немного.', 429);
                 });
         });
 

@@ -4,27 +4,65 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * Сервис кэширования публичного API.
+ *
+ * ВАЖНО: драйвер кэша по умолчанию (database) НЕ поддерживает Cache::tags,
+ * поэтому вместо теговой инвалидации используется механизм "поколений" (epoch):
+ * при изменении данных инкрементируется счётчик-поколение, который входит
+ * в ключ кэша. Старые записи просто перестают попадать под новые ключи
+ * и вытесняются по TTL.
+ */
 class CacheService
 {
     // TTL в секундах
-    public const TTL_PROPERTIES = 300;        // 5 минут — список объектов
-    public const TTL_PROPERTY_DETAIL = 300;   // 5 минут — детали объекта
-    public const TTL_DISABLED_DATES = 300;    // 5 минут — занятые даты
-    public const TTL_PRICING = 600;           // 10 минут — расчёт цен
+    public const TTL_PROPERTIES = 300;        // 5 минут - список объектов
+    public const TTL_PROPERTY_DETAIL = 300;   // 5 минут - детали объекта
+    public const TTL_DISABLED_DATES = 300;    // 5 минут - занятые даты
+    public const TTL_PRICING = 600;           // 10 минут - расчёт цен
 
-    // Кэш-теги для групповой инвалидации
-    public const TAG_PROPERTIES = 'properties';
-    public const TAG_PROPERTY_DETAIL = 'property-detail';
-    public const TAG_DISABLED_DATES = 'disabled-dates';
-    public const TAG_PRICING = 'pricing';
+    // Группировки инвалидации (аналоги прежних кэш-тегов)
+    public const GROUP_PROPERTIES = 'properties';            // список объектов
+    public const GROUP_PROPERTY_DETAIL = 'property-detail';  // детали объекта
+    public const GROUP_DISABLED_DATES = 'disabled-dates';    // занятые даты
+    public const GROUP_PRICING = 'pricing';                  // расчёт цен
+
+    private const EPOCH_PREFIX = 'cache:epoch:';
+
+    /**
+     * Текущее поколение кэша для группы.
+     */
+    protected function epoch(string $group): int
+    {
+        return (int) Cache::get(self::EPOCH_PREFIX . $group, 0);
+    }
+
+    /**
+     * Полное имя ключа с учётом поколения.
+     */
+    protected function key(string $group, string $key): string
+    {
+        return self::EPOCH_PREFIX . $group . ':' . $this->epoch($group) . ':' . $key;
+    }
+
+    /**
+     * Сброс группы: увеличиваем поколение - все старые ключи становятся неактуальны.
+     */
+    protected function bumpEpoch(string $group): void
+    {
+        Cache::increment(self::EPOCH_PREFIX . $group);
+    }
 
     /**
      * Список всех объектов
      */
     public function getPropertiesList(\Closure $callback): array
     {
-        return Cache::tags([self::TAG_PROPERTIES])
-            ->remember('properties:ids', self::TTL_PROPERTIES, $callback);
+        return Cache::remember(
+            $this->key(self::GROUP_PROPERTIES, 'list:ids'),
+            self::TTL_PROPERTIES,
+            $callback
+        );
     }
 
     /**
@@ -32,8 +70,11 @@ class CacheService
      */
     public function getPropertyDetail(int $propertyId, \Closure $callback): mixed
     {
-        return Cache::tags([self::TAG_PROPERTY_DETAIL])
-            ->remember("property:detail:{$propertyId}", self::TTL_PROPERTY_DETAIL, $callback);
+        return Cache::remember(
+            $this->key(self::GROUP_PROPERTY_DETAIL, "detail:{$propertyId}"),
+            self::TTL_PROPERTY_DETAIL,
+            $callback
+        );
     }
 
     /**
@@ -41,8 +82,11 @@ class CacheService
      */
     public function getDisabledDates(int $propertyId, \Closure $callback): array
     {
-        return Cache::tags([self::TAG_DISABLED_DATES])
-            ->remember("disabled-dates:{$propertyId}", self::TTL_DISABLED_DATES, $callback);
+        return Cache::remember(
+            $this->key(self::GROUP_DISABLED_DATES, "disabled-dates:{$propertyId}"),
+            self::TTL_DISABLED_DATES,
+            $callback
+        );
     }
 
     /**
@@ -50,8 +94,11 @@ class CacheService
      */
     public function getAllDisabledDates(\Closure $callback): array
     {
-        return Cache::tags([self::TAG_DISABLED_DATES])
-            ->remember('disabled-dates:all', self::TTL_DISABLED_DATES, $callback);
+        return Cache::remember(
+            $this->key(self::GROUP_DISABLED_DATES, 'disabled-dates:all'),
+            self::TTL_DISABLED_DATES,
+            $callback
+        );
     }
 
     /**
@@ -59,9 +106,11 @@ class CacheService
      */
     public function getPricing(int $propertyId, string $checkIn, string $checkOut, \Closure $callback): array
     {
-        $key = "pricing:{$propertyId}:{$checkIn}:{$checkOut}";
-        return Cache::tags([self::TAG_PRICING])
-            ->remember($key, self::TTL_PRICING, $callback);
+        return Cache::remember(
+            $this->key(self::GROUP_PRICING, "pricing:{$propertyId}:{$checkIn}:{$checkOut}"),
+            self::TTL_PRICING,
+            $callback
+        );
     }
 
     // ========== ИНВАЛИДАЦИЯ ==========
@@ -71,8 +120,8 @@ class CacheService
      */
     public function invalidateProperties(): void
     {
-        Cache::tags([self::TAG_PROPERTIES])->flush();
-        Cache::tags([self::TAG_PROPERTY_DETAIL])->flush();
+        $this->bumpEpoch(self::GROUP_PROPERTIES);
+        $this->bumpEpoch(self::GROUP_PROPERTY_DETAIL);
     }
 
     /**
@@ -80,8 +129,8 @@ class CacheService
      */
     public function invalidatePropertyDetail(int $propertyId): void
     {
-        Cache::tags([self::TAG_PROPERTY_DETAIL])->flush();
-        Cache::tags([self::TAG_PROPERTIES])->flush(); // список тоже меняем
+        $this->bumpEpoch(self::GROUP_PROPERTY_DETAIL);
+        $this->bumpEpoch(self::GROUP_PROPERTIES); // список тоже меняем
     }
 
     /**
@@ -89,8 +138,7 @@ class CacheService
      */
     public function invalidateDisabledDates(?int $propertyId = null): void
     {
-        // Т.к. с тегами проще сбрасывать всё, сбрасываем все занятые даты
-        Cache::tags([self::TAG_DISABLED_DATES])->flush();
+        $this->bumpEpoch(self::GROUP_DISABLED_DATES);
     }
 
     /**
@@ -98,7 +146,7 @@ class CacheService
      */
     public function invalidatePricing(): void
     {
-        Cache::tags([self::TAG_PRICING])->flush();
+        $this->bumpEpoch(self::GROUP_PRICING);
     }
 
     /**
@@ -106,12 +154,14 @@ class CacheService
      */
     public function invalidateAll(): void
     {
-        Cache::tags([
-            self::TAG_PROPERTIES,
-            self::TAG_PROPERTY_DETAIL,
-            self::TAG_DISABLED_DATES,
-            self::TAG_PRICING,
-        ])->flush();
+        foreach ([
+            self::GROUP_PROPERTIES,
+            self::GROUP_PROPERTY_DETAIL,
+            self::GROUP_DISABLED_DATES,
+            self::GROUP_PRICING,
+        ] as $group) {
+            $this->bumpEpoch($group);
+        }
     }
 
     /**
@@ -135,7 +185,7 @@ class CacheService
      */
     public function isIcalImporting(): bool
     {
-        return Cache::get('ical:importing', false);
+        return (bool) Cache::get('ical:importing', false);
     }
 
     /**
@@ -144,10 +194,10 @@ class CacheService
     public function invalidateAfterIcalImport(?array $propertyIds = null): void
     {
         // Сбрасываем занятые даты для всех объектов
-        Cache::tags([self::TAG_DISABLED_DATES])->flush();
+        $this->bumpEpoch(self::GROUP_DISABLED_DATES);
 
         // Сбрасываем детали объектов
-        Cache::tags([self::TAG_PROPERTY_DETAIL])->flush();
+        $this->bumpEpoch(self::GROUP_PROPERTY_DETAIL);
 
         // Логируем
         \Log::info('Кэш сброшен после импорта iCal', [
