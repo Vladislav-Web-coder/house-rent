@@ -8,7 +8,7 @@
                 </span>
                 <h2 class="text-3xl md:text-5xl font-light text-[#fdf8ef]">Интересное рядом</h2>
                 <p class="text-[#a8b6bd] text-base md:text-lg mt-3 max-w-2xl mx-auto">
-                    Места, ради которых стоит остаться подольше — всё в шаговой досупности от вашего дома
+                    Места, ради которых стоит остаться подольше — всё в шаговой доступности от вашего дома
                 </p>
             </div>
 
@@ -29,7 +29,7 @@
                         <div v-for="item in items" :key="item.id" class="w-full flex-shrink-0 flex">
                             <!-- h-full: белая карточка заполняет всю высоту слайда -->
                             <div class="grid grid-cols-1 md:grid-cols-2 bg-[#fffdf8] w-full h-full">
-                                <!-- Фото: абсолютное, заполняет колонку без пустот -->
+                                <!-- Фото: относительный контейнер, внутри — стрелки -->
                                 <div class="relative h-64 md:h-full md:min-h-[420px]">
                                     <img
                                         :src="item.image"
@@ -38,10 +38,31 @@
                                         class="absolute inset-0 w-full h-full object-cover"
                                         @error="onImageError"
                                     />
+
                                     <!-- Бейдж расстояния -->
                                     <span class="absolute top-4 left-4 bg-[#e9a13b] text-[#1a1206] px-3 py-1.5 rounded-full text-xs font-bold shadow-lg z-10">
-                                        {{ item.distance }}
-                                    </span>
+        {{ item.distance }}
+    </span>
+
+                                    <!-- ✅ Стрелки внутри фото-колонки -->
+                                    <button
+                                        @click.stop="prev"
+                                        class="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 bg-white/90 hover:bg-[#e9a13b] hover:text-[#1a1206] text-[#251d12] rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+                                        aria-label="Предыдущее место"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <button
+                                        @click.stop="next"
+                                        class="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 bg-white/90 hover:bg-[#e9a13b] hover:text-[#1a1206] text-[#251d12] rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
+                                        aria-label="Следующее место"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
                                 </div>
 
                                 <!-- Описание: центрируется по вертикали -->
@@ -60,26 +81,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Стрелки -->
-                <button
-                    @click="prev"
-                    class="absolute left-3 md:-left-5 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 bg-[#fffdf8]/90 hover:bg-[#e9a13b] hover:text-[#1a1206] text-[#251d12] rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
-                    aria-label="Предыдущее место"
-                >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </button>
-                <button
-                    @click="next"
-                    class="absolute right-3 md:-right-5 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 bg-[#fffdf8]/90 hover:bg-[#e9a13b] hover:text-[#1a1206] text-[#251d12] rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
-                    aria-label="Следующее место"
-                >
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
 
                 <!-- Точки -->
                 <div class="flex justify-center gap-2 mt-6">
@@ -105,42 +106,42 @@ const items = ref([
     {
         id: 1,
         title: 'Горный парк «Рускеала»',
-        description: 'Мраморный каньон с бирюзовой водой, подземные маршруты и троллей над водой. Зимой — художественная подсветка скал и каток в каньоне.',
+        description: 'Мраморный каньон с изумрудной водой и отвесными скалами. Бывший карьер, где добывали камень для Петербурга. Прогулки по тропам, лодки и подземные штольни.',
         distance: '~40 км',
         location: 'п. Рускеала, Сортавальский район',
-        image: '/images/nearby/ruskeala.jpeg',
+        image: '/images/nearby/ruskeala.jpg',
     },
     {
         id: 2,
-        title: 'Валаамский монастырь',
-        description: 'Архипелаг с вековыми соснами и действующим монастырём. Летом — теплоходы из Сортавалы, экскурсии по скитам и бухтам.',
-        distance: '~45 км + теплоход',
-        location: 'о. Валаам, Ладожское озеро',
-        image: '/images/nearby/valaam.jpeg',
+        title: 'Исторический парк «Бастион»',
+        description: 'Интерактивный музей под открытым небом на берегу Ладоги. Крепость викингов, мастер-классы и живая история — можно всё трогать и примерять.',
+        distance: '~5 км',
+        location: 'г. Сортавала, набережная Ладоги',
+        image: '/images/nearby/bastion.png',
     },
     {
         id: 3,
-        title: 'Шхеры Ладоги на катере',
-        description: 'Лабиринт скалистых островов и тихих бухт. Прогулка на катере или SUP-доске — лучший способ увидеть залив с воды.',
-        distance: 'от причала рядом',
-        location: 'Ладожские шхеры',
-        image: '/images/nearby/skhery.jpeg',
+        title: 'Парк Ваккосалми',
+        description: 'Живописный городской парк с горой Кухавуори. Панорамные виды на Сортавалу и озеро, певческое поле с уникальной акустикой и скульптурой Ангела.',
+        distance: '~7 км',
+        location: 'г. Сортавала',
+        image: '/images/nearby/vakkosalmi.png',
     },
     {
         id: 4,
-        title: 'Водопады Юканкоски',
-        description: 'Белые мосты — каскад водопадов среди сосен. Деревянные тропы и смотровые площадки, особенно красиво весной и осенью.',
-        distance: '~60 км',
-        location: 'р. Кулисмайоки',
-        image: '/images/nearby/waterfall.jpeg',
+        title: 'Карельский зоопарк',
+        description: 'Один из самых больших зоопарков России. Здесь живут медведи, волки, рыси, лоси и множество других животных. Отличный вариант для семейного дня и знакомства с северной природой.',
+        distance: '~100 км',
+        location: 'п. Сяпся, Пряжинский район',
+        image: '/images/nearby/zoo.jpg',
     },
     {
         id: 5,
-        title: 'Старинная Сортавала',
-        description: 'Северный модерн, набережная Ладоги и кафе с калитками. Идеально на полдня между поездками по окрестностям.',
-        distance: '~25 км',
-        location: 'г. Сортавала',
-        image: '/images/nearby/sortavala.jpeg',
+        title: 'Остров Валаам',
+        description: 'Легендарный архипелаг посреди Ладоги. Древний монастырь, скалистые берега, хвойные леса и особая северная атмосфера «Северного Афона».',
+        distance: '~45 км + теплоход',
+        location: 'о. Валаам, Ладожское озеро',
+        image: '/images/nearby/valaam.png',
     },
 ]);
 
