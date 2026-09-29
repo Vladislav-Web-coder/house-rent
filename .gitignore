@@ -16,6 +16,25 @@ composer.phar
 .DS_Store
 Thumbs.db
 
-# Environment
+# Environment / секреты — никогда не коммитить
 .env
+.env.*
+!.env.example
 .env.local
+auth.json
+
+# Сборка
+/public/build/
+/public/hot
+/public/storage
+
+# Логи и данные
+/storage/*.key
+/storage/pail
+/storage/logs/*.log
+/storage/framework/cache/data/*
+!storage/framework/cache/data/.gitkeep
+/storage/framework/sessions/*
+!storage/framework/sessions/.gitkeep
+/storage/app/private/*
+!storage/app/private/.gitkeep

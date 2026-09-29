@@ -64,6 +64,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                // Панель администратора доступна только пользователям с ролью admin
+                \App\Http\Middleware\EnsureUserIsAdmin::class,
             ]);
     }
 }
