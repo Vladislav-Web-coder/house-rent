@@ -1,20 +1,36 @@
-# Laravel .gitignore
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-/vendor/
-/node_modules/
-/public/build/
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
+# PHP
+vendor/
+composer.phar
 
-# Секреты и локальные конфиги — никогда не коммитить
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment / секреты — никогда не коммитить
 .env
 .env.*
 !.env.example
+.env.local
 auth.json
 
+# Сборка
+/public/build/
+/public/hot
+/public/storage
+
 # Логи и данные
+/storage/*.key
+/storage/pail
 /storage/logs/*.log
 /storage/framework/cache/data/*
 !storage/framework/cache/data/.gitkeep
@@ -22,9 +38,3 @@ auth.json
 !storage/framework/sessions/.gitkeep
 /storage/app/private/*
 !storage/app/private/.gitkeep
-
-# IDE / ОС
-.idea
-.vscode
-*.swp
-.DS_Store
