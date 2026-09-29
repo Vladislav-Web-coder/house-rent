@@ -467,11 +467,6 @@ function handleImageError(event) {
     event.target.src = '/images/fallback-property.jpg';
 }
 
-function formatPrice(price) {
-    if (!price) return '0';
-    return new Intl.NumberFormat('ru-RU').format(price);
-}
-
 function scrollToBooking() {
     const el = document.getElementById('booking');
     if (el) {
@@ -495,8 +490,7 @@ async function loadProperty() {
     descriptionExpanded.value = false;
 
     try {
-        const response = await axios.get(`/api/properties/${route.params.id}`);
-        property.value = response.data.data;
+        property.value = await fetchProperty(route.params.id);
         window.scrollTo({ top: 0, behavior: 'instant' });
 
         // Замеряем описание после рендера
