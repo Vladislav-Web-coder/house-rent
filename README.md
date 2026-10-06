@@ -1,59 +1,144 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏡 Simbungalow — сервис бронирования загородных домов
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Fullstack-приложение для аренды домиков и апартаментов: публичный сайт с каталогом, календарём доступности и расчётом стоимости + админ-панель на Filament.
 
-## About Laravel
+## Стек
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Backend**
+- PHP 8.2+ / Laravel 12
+- PostgreSQL 18
+- Redis (кэш, очереди, сессии)
+- Filament 3 (админ-панель) + Spatie Media Library (медиа объектов)
+- Sanctum (API-аутентификация)
+- SabreVObject / ics-parser — двусторонняя синхронизация календарей (Google/Apple ICS)
+- spatie/laravel-sitemap — генерация sitemap.xml
+- Уведомления: e-mail (SMTP/Mailpit) + мессенджер MAX (бот)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Frontend**
+- Vue 3 (SPA) + Vite 7
+- Tailwind CSS 4
+- Pinia, vue-router
+- vee-validate + zod (валидация форм бронирования)
+- Swiper, VueDatepicker, libphonenumber-js
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Основные возможности
 
-## Learning Laravel
+- Каталог объектов (`house` / `apartament`) с галереями фото/видео и lightbox
+- Расчёт стоимости: базовая цена за ночь + сезонные периоды + цены по дням недели + ценовые исключения
+- Календарь доступности с учётом заявок, подтверждённых броней, заблокированных дат и внешних ICS-календарей
+- Создание заявок на бронирование с валидацией и уведомлениями (e-mail + MAX)
+- Экспорт собственного календаря объекта в `.ics` по секретному токену
+- Автоотмена неактивных заявок, синхронизация внешних календарей по расписанию
+- Админ-панель (`/control-panel`): управление объектами, заявками, ссылками на календари, договорами (PDF)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Структура проекта
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+app/
+├── Filament/          # админ-панель (Resources, Pages, Widgets)
+├── Http/Controllers/  # Api/* — публичные эндпоинты, Admin/* — ручка панели
+├── Listeners/         # события (обработка загруженных видео и др.)
+├── Models/            # Property, BookingRequest, Booking, PricePeriod, ...
+├── Notifications/     # канал MAX-бота, mail-шаблоны
+├── Services/          # PricingService, AvailabilityService, CacheService, ...
+routes/
+├── api.php            # REST API для фронтенда (с rate limiting)
+├── web.php            # SPA-роуты, sitemap.xml, скачивание договора, fallback
+├── console.php        # планировщик (sync каждые 5 мин, отмена заявок hourly)
+resources/js/
+├── api/               # слой HTTP-запросов (axios)
+├── components/        # BookingForm, DateRangePicker, YandexMap, Lightbox, ...
+├── stores/            # Pinia
+├── utils/             # formatPrice и др.
+└── views/             # Home, PropertyView, PrivacyPolicy, NotFound
+```
 
-## Laravel Sponsors
+## Быстрый старт (Docker)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Требуется Docker и docker compose. Сервисы из `compose.yaml`: приложение (nginx + php-fpm), PostgreSQL, Redis, Mailpit.
 
-### Premium Partners
+```bash
+git clone https://github.com/Vladislav-Web-coder/house-rent.git
+cd house-rent
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+cp .env.example .env
+docker compose up -d pgsql redis mailpit
+docker compose run --rm app sh -c "
+    composer install &&
+    php artisan key:generate &&
+    php artisan migrate --seed &&
+    npm install && npm run build"
+docker compose up -d app
+```
 
-## Contributing
+Создать администратора (в панели могут работать только пользователи с `role = 'admin'`):
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+docker compose exec app php artisan tinker
+>>> \App\Models\User::create(['name' => 'Admin', 'email' => 'admin@example.com',
+        'password' => bcrypt('secret'), 'role' => 'admin']);
+```
 
-## Code of Conduct
+⚠️ При обновлении со старой версии: колонка `role` в таблице `users` nullable — убедитесь, что у существующих админов выставлено `role='admin'`, иначе они получат 403.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Точки входа по умолчанию:
 
-## Security Vulnerabilities
+| URL | Что |
+|---|---|
+| http://localhost:8080 | сайт |
+| http://localhost:8080/control-panel | панель Filament (только `role=admin`) |
+| http://localhost:8025 | Mailpit (просмотр писем) |
+| localhost:5433 | PostgreSQL снаружи контейнера |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Без Docker локально поднимают стандартно: `php artisan serve` + `npm run dev`, при этом `DB_*`/`REDIS_*` в `.env` должны указывать на ваши PostgreSQL и Redis.
 
-## License
+## Переменные окружения
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Ключевые (полный список — `.env.example`):
+
+| Переменная | Назначение |
+|---|---|
+| `APP_URL` | домен сайта (используется в письмах и ссылках) |
+| `DB_CONNECTION=pgsql` | СУБД; `CACHE_STORE=redis` и `QUEUE_CONNECTION=redis` обязательны (кэш работает на тегах) |
+| `MAIL_*` | SMTP (Mailpit в dev) |
+| `MAX_BOT_TOKEN` | токен MAX-бота для уведомлений (пусто — канал отключается мягко) |
+
+## Команды и планировщик
+
+```bash
+php artisan calendar:sync-external [--property=ID]   # импорт внешних ICS (по расписанию — каждые 5 мин)
+php artisan bookings:cancel-expired                  # отмена просроченных заявок (hourly)
+php artisan video:optimize [--id=MEDIA_ID]           # конвертация видео (обычно запускается автоматически через очередь при загрузке)
+```
+
+Для продакшена нужен cron с `php artisan schedule:work` (или системный cron на `schedule:run`).
+
+## Тесты
+
+```bash
+php artisan test
+# или в контейнере
+docker compose exec app php artisan test
+```
+
+## Требования к серверу (продакшен)
+
+Проект рассчитан на малый трафик (до ~1000 посетителей/мес) — достаточно **одного VPS**:
+
+| Ресурс | Минимум | Комфортно |
+|---|---|---|
+| vCPU | 2 | 4 (важно для ffmpeg при обработке видео) |
+| RAM | 4 ГБ | 8 ГБ |
+| Диск | 40–60 ГБ SSD/NVMe | зависит от объёма медиа + бэкапы БД |
+
+Развертывание: Docker Compose (`laravel.test` + `nginx` + `pgsql` + `redis`) на Ubuntu 22.04/24.04, перед ним Caddy или nginx-proxy для HTTPS. Очередь (`QUEUE_CONNECTION=redis`) обрабатывается тем же контейнером приложения через supervisord — отдельные серверы не нужны. Подходящие тарифы: Hetzner CX22/CX32 или аналоги у российских провайдеров (~€10–20/мес).
+
+Если видео в галереях станет много и конвертация будет нагружать сервер — перенесите медиа на S3-совместимое хранилище + CDN (MediaLibrary поддерживает удалённые диски почти без изменений в коде).
+
+## Полезное
+
+```bash
+vendor/bin/pint                       # форматирование PHP (Laravel Pint)
+php artisan route:list
+php artisan pail                      # просмотр логов в реальном времени
+```
