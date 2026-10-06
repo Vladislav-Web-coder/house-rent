@@ -50,7 +50,7 @@ class ContractManagement extends Page implements HasActions, HasForms
     }
 
     /**
-     * ✅ Кнопки действий в хедере страницы
+     * Кнопки действий в хедере страницы
      */
     protected function getHeaderActions(): array
     {

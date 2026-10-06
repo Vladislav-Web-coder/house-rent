@@ -11,7 +11,7 @@
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
-                <!-- ✅ Иконка плей ТОЛЬКО если текущий слайд — видео -->
+                <!--  Иконка плей ТОЛЬКО если текущий слайд — видео -->
                 <div
                     v-if="currentMedia?.type === 'video'"
                     class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors pointer-events-none"
@@ -75,7 +75,7 @@
                     {{ currentSlide + 1 }} / {{ galleryItems.length }}
                 </div>
 
-                <!-- ✅ Бейдж категории: янтарный, контрастный на тёмном фото -->
+                <!--  Бейдж категории: янтарный, контрастный на тёмном фото -->
                 <div class="absolute top-4 left-4 bg-[#e9a13b] px-3 py-1.5 rounded-full text-xs font-bold text-[#1a1206] z-10 shadow-lg">
                     {{ categoryLabel }}
                 </div>

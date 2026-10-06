@@ -8,7 +8,7 @@
             <div class="absolute inset-0">
                 <img
                     src="/images/hero-bg.jpeg"
-                    alt="Спящий залив"
+                    alt="Сказочная Карелия"
                     class="w-full h-full object-cover"
                 />
                 <div class="absolute inset-0 bg-[#0e1a24]/20"></div>
@@ -22,7 +22,7 @@
                     </span>
 
                     <h1 class="text-4xl sm:text-5xl md:text-7xl font-light mb-4 md:mb-6 tracking-wide text-[#fdf8ef]">
-                        Спящий залив
+                        Сказочная Карелия
                     </h1>
                     <p class="text-lg md:text-2xl font-light mb-8 md:mb-10 max-w-2xl mx-auto text-[#e8eef1] leading-relaxed">
                         Дома для всей семьи на берегу Ладоги — рядом с самыми интересными местами Карелии
@@ -47,7 +47,7 @@
             <div class="container mx-auto px-4 md:px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
 
-                    <!-- ✅ Можно с питомцами: лапки -->
+                    <!-- Можно с питомцами: лапки -->
                     <div class="flex flex-col items-center text-center group">
                         <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <ellipse cx="4.5" cy="10" rx="2" ry="2.4"/>
@@ -59,7 +59,7 @@
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">Можно с питомцами</span>
                     </div>
 
-                    <!-- ✅ Сауна и баня: пар над шайкой -->
+                    <!-- Сауна и баня: пар над шайкой -->
                     <div class="flex flex-col items-center text-center group">
                         <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" d="M8 3c-1.2 1.2 1.2 2.3 0 3.5"/>
@@ -71,7 +71,7 @@
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">Сауна и баня</span>
                     </div>
 
-                    <!-- ✅ SUP-доски: доска + весло -->
+                    <!-- SUP-доски: доска + весло -->
                     <div class="flex flex-col items-center text-center group">
                         <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                             <!-- Доска (вид сверху): вытянутый овал с стрингером -->
@@ -85,7 +85,7 @@
                         <span class="text-sm md:text-base text-[#eef3f5] font-medium">SUP-доски</span>
                     </div>
 
-                    <!-- ✅ Лодки и пирс: лодка с вёслами на волнах -->
+                    <!-- Лодки и пирс: лодка с вёслами на волнах -->
                     <div class="flex flex-col items-center text-center group">
                         <svg class="w-12 h-12 md:w-16 md:h-16 mb-3 md:mb-4 text-[#e9a13b] transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linejoin="round" d="M4 14h16c-.5 2-1.5 3.5-3 4.5H7C5.5 17.5 4.5 16 4 14z"/>
@@ -126,7 +126,7 @@
                     <p class="text-[#6e6459] text-base md:text-lg px-2">Продуманные до мелочей дома, тишина и карельская природа — всё, чтобы вы по-настоящему отдохнули</p>
                 </div>
 
-                <!-- ✅ Фильтры: "Дома" и "Квартиры" только если квартиры есть на бэке -->
+                <!-- Фильтры: "Дома" и "Квартиры" только если квартиры есть на бэке -->
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 md:mb-12">
                     <button
                         @click="updateFilter('all')"
@@ -189,7 +189,7 @@
             </div>
         </section>
 
-        <!-- ✅ НОВАЯ СЕКЦИЯ: Интересное рядом (перед FAQ) -->
+        <!-- НОВАЯ СЕКЦИЯ: Интересное рядом (перед FAQ) -->
         <InterestingNearby />
 
         <!-- FAQ Section -->
@@ -214,7 +214,7 @@
                             </span>
                         </div>
                         <p class="text-[#a89f92] leading-relaxed max-w-md">
-                            Премиальная недвижимость для вашего комфорта. Дома для всей семьи на берегу Ладожского озера.
+                            Уютные барнхаусы на берегу Ладоги. Отдых среди леса, тишины и природы. Забронируйте свой домик и окунитесь в атмосферу настоящей Карелии.
                         </p>
                     </div>
 
@@ -226,7 +226,7 @@
                                     Дома
                                 </button>
                             </li>
-                            <!-- ✅ Вместо "Цены" — новая секция -->
+                            <!-- Вместо "Цены" — новая секция -->
                             <li>
                                 <button @click="scrollToSection('nearby')" class="hover:text-[#e9a13b] transition-colors">
                                     Интересное рядом
@@ -244,16 +244,16 @@
                         <h4 class="text-lg font-bold mb-6 tracking-wider text-[#fdf8ef]">КОНТАКТЫ</h4>
                         <div class="space-y-3 text-[#a89f92]">
                             <p>
-                                <a href="tel:+79999999999" class="hover:text-[#e9a13b] transition-colors">
-                                    +7 (999) 999-99-99
+                                <a href="tel:+79111201382" class="hover:text-[#e9a13b] transition-colors">
+                                    +7 (911) 120-13-82
                                 </a>
                             </p>
                             <p>
-                                <a href="mailto:info@uyutnydom.ru" class="hover:text-[#e9a13b] transition-colors">
-                                    info@uyutnydom.ru
+                                <a href="mailto:andreysavitsk@gmail.com" class="hover:text-[#e9a13b] transition-colors">
+                                    andreysavitsk@gmail.com
                                 </a>
                             </p>
-                            <p class="text-sm">Ежедневно 9:00-21:00</p>
+                            <p class="text-sm">Ежедневно 24/7</p>
                         </div>
                     </div>
                 </div>
@@ -294,7 +294,7 @@ const filter = ref(route.query.category || 'all');
 // Выбранные даты в календаре
 const selectedDates = ref({ start: null, end: null });
 
-// ✅ Есть ли квартиры среди загруженных объектов
+// Есть ли квартиры среди загруженных объектов
 const hasApartments = computed(() =>
     store.properties.some(p => p.category === 'apartment')
 );
@@ -315,7 +315,7 @@ watch(() => route.query.category, (newCategory) => {
     }
 }, { immediate: true });
 
-// ✅ Защита: если квартир нет, а в URL пришёл фильтр apartment — сбрасываем
+// Защита: если квартир нет, а в URL пришёл фильтр apartment — сбрасываем
 watch(hasApartments, (exists) => {
     if (!exists && filter.value === 'apartment') {
         filter.value = 'all';

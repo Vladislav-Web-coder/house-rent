@@ -6,7 +6,7 @@
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">
 
 <div style="background: #283e46; padding: 30px; text-align: center;">
-    <h1 style="color: white; margin: 0; font-weight: 300;">УЮТНЫЙДОМ</h1>
+    <h1 style="color: white; margin: 0; font-weight: 300;">Сказочная Карелия</h1>
 </div>
 
 <div style="padding: 30px; background: #ffffff;">
@@ -61,15 +61,15 @@
 
     <p style="margin-top: 30px;">
         С уважением,<br>
-        <strong>Команда УЮТНЫЙДОМ</strong><br>
-        +7 (999) 999-99-99<br>
-        info@uyutnydom.ru
+        <strong>Команда Сказочная Карелия</strong><br>
+        +7 (911) 120-13-82<br>
+        andreysavitsk@gmail.com
     </p>
 </div>
 
 <div style="background: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #999;">
     Это автоматическое письмо. Пожалуйста, не отвечайте на него.<br>
-    &copy; {{ date('Y') }} УЮТНЫЙДОМ
+    &copy; {{ date('Y') }} Сказочная Карелия
 </div>
 
 </body>

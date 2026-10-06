@@ -19,7 +19,7 @@ class SpaController extends Controller
             'canonical' => url('/'),
             'ogImage' => asset('images/og-cover.jpg'),
             'ogType' => 'website',
-            'organizationSchema' => $this->generateOrganizationSchema(), // ✅
+            'organizationSchema' => $this->generateOrganizationSchema(), //
         ]);
     }
 
@@ -43,8 +43,8 @@ class SpaController extends Controller
             'ogImage' => $property->getFirstMediaUrl('gallery', 'thumb_800x600') ?: asset('images/og-cover.jpg'),
             'ogType' => 'website',
             'property' => $property,
-            'organizationSchema' => $this->generateOrganizationSchema(), // ✅
-            'propertySchema' => $this->generatePropertySchema($property), // ✅
+            'organizationSchema' => $this->generateOrganizationSchema(), //
+            'propertySchema' => $this->generatePropertySchema($property), //
         ]);
     }
 
@@ -58,7 +58,7 @@ class SpaController extends Controller
             'description' => 'Политика конфиденциальности сайта СказочнаяКарелия. Условия обработки персональных данных пользователей.',
             'keywords' => 'политика конфиденциальности, персональные данные',
             'canonical' => url('/policy'),
-            'organizationSchema' => $this->generateOrganizationSchema(), // ✅
+            'organizationSchema' => $this->generateOrganizationSchema(), //
         ]);
     }
 
@@ -76,7 +76,7 @@ class SpaController extends Controller
     }
 
     /**
-     * ✅ Schema.org для организации (на всех страницах)
+     *  Schema.org для организации (на всех страницах)
      */
     private function generateOrganizationSchema(): array
     {
@@ -88,8 +88,8 @@ class SpaController extends Controller
             'url' => url('/'),
             'logo' => asset('images/logo.png'),
             'image' => asset('images/og-cover.jpg'),
-            'telephone' => '+7 999 999-99-99',
-            'email' => 'info@uyutnydom.ru',
+            'telephone' => '+7 911 120-13-82',
+            'email' => 'andreysavitsk@gmail.com',
             'priceRange' => '₽₽',
             'address' => [
                 '@type' => 'PostalAddress',
@@ -111,14 +111,13 @@ class SpaController extends Controller
                 'closes' => '21:00',
             ],
             'sameAs' => [
-                'https://t.me/uyutnydom',
-                'https://vk.com/uyutnydom',
+                'https://t.me/andrewsav123',
             ],
         ];
     }
 
     /**
-     * ✅ Schema.org для объекта недвижимости
+     * Schema.org для объекта недвижимости
      */
     private function generatePropertySchema(Property $property): array
     {

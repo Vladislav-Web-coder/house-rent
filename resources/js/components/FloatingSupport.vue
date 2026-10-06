@@ -43,7 +43,7 @@
 
                 <!-- Telegram -->
                 <a
-                    href="https://t.me/your_telegram_username"
+                    href="https://t.me/andrewsav123"
                     target="_blank"
                     class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#f6efe3] transition-colors group"
                 >
@@ -63,7 +63,7 @@
 
                 <!-- WhatsApp -->
                 <a
-                    href="https://wa.me/79999999999"
+                    href="https://wa.me/79111201382"
                     target="_blank"
                     class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#f6efe3] transition-colors group"
                 >
@@ -83,7 +83,7 @@
 
                 <!-- MAX -->
                 <a
-                    href="https://max.ru/u/your_max_username"
+                    href="https://max.ru/u/79111201382"
                     target="_blank"
                     class="flex items-center space-x-4 p-4 rounded-xl hover:bg-[#f6efe3] transition-colors group"
                 >

@@ -223,7 +223,7 @@ const disabledDates = computed(() => {
 
 const maxTotalGuests = props.maxAdults + props.maxChildren;
 
-// ✅ Динамическая маска на основе libphonenumber-js
+// Динамическая маска на основе libphonenumber-js
 const phoneMask = computed(() => {
     const example = getExampleNumber(countryCode.value, examples);
     if (example) {

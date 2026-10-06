@@ -46,11 +46,10 @@ class PricingService
             $totalNights++;
         }
 
-        // ✅ Убрали cleaning_fee — итоговая цена = только проживание
         return [
             'nights' => $totalNights,
             'accommodation_total' => $accommodationTotal,
-            'final_total' => $accommodationTotal, // Теперь равно accommodation_total
+            'final_total' => $accommodationTotal,
             'breakdown' => $breakdown,
             'price_groups' => array_values($priceGroups),
         ];

@@ -172,7 +172,7 @@
                 <div class="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-12">
                     <div class="xl:col-span-8 space-y-10 xl:space-y-12">
 
-                        <!-- ✅ 1. Заголовок и характеристики (первыми) -->
+                        <!--  1. Заголовок и характеристики (первыми) -->
                         <div>
                             <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
                                 <div>
@@ -210,7 +210,7 @@
                             </div>
                         </div>
 
-                        <!-- ✅ 2. О доме: сворачиваемое описание -->
+                        <!--  2. О доме: сворачиваемое описание -->
                         <div>
                             <h2 class="text-xl md:text-2xl lg:text-3xl font-medium text-[#251d12] mb-4 md:mb-6">О доме</h2>
 
@@ -254,7 +254,7 @@
                             </button>
                         </div>
 
-                        <!-- ✅ 3. Расположение -->
+                        <!--  3. Расположение -->
                         <div>
                             <h2 class="text-xl md:text-2xl lg:text-3xl font-medium text-[#251d12] mb-4 md:mb-6">Расположение</h2>
                             <YandexMap
@@ -286,7 +286,7 @@
             </div>
         </div>
 
-        <!-- ✅ ФУТЕР: как на главной странице -->
+        <!--  ФУТЕР: как на главной странице -->
         <footer class="bg-[#0c111c] text-white pt-12 md:pt-16 pb-28 xl:pb-16">
             <div class="container mx-auto px-4 md:px-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-12 mb-10 md:mb-12">
@@ -303,7 +303,7 @@
                             </span>
                         </div>
                         <p class="text-[#a89f92] leading-relaxed max-w-md">
-                            Премиальная недвижимость для вашего комфорта. Дома для всей семьи на берегу Ладожского озера.
+                            Уютные барнхаусы на берегу Ладоги. Отдых среди леса, тишины и природы. Забронируйте свой домик и окунитесь в атмосферу настоящей Карелии
                         </p>
                     </div>
 
@@ -332,16 +332,16 @@
                         <h4 class="text-lg font-bold mb-6 tracking-wider text-[#fdf8ef]">КОНТАКТЫ</h4>
                         <div class="space-y-3 text-[#a89f92]">
                             <p>
-                                <a href="tel:+79999999999" class="hover:text-[#e9a13b] transition-colors">
-                                    +7 (999) 999-99-99
+                                <a href="tel:+79111201382" class="hover:text-[#e9a13b] transition-colors">
+                                    +7 (911) 120-13-82
                                 </a>
                             </p>
                             <p>
-                                <a href="mailto:info@uyutnydom.ru" class="hover:text-[#e9a13b] transition-colors">
-                                    info@uyutnydom.ru
+                                <a href="mailto:andreysavitsk@gmail.com" class="hover:text-[#e9a13b] transition-colors">
+                                    andreysavitsk@gmail.com
                                 </a>
                             </p>
-                            <p class="text-sm">Ежедневно 9:00-21:00</p>
+                            <p class="text-sm">Ежедневно 24/7</p>
                         </div>
                     </div>
                 </div>
@@ -402,7 +402,7 @@ const currentSlide = ref(0);
 const lightboxOpen = ref(false);
 const thumbsContainer = ref(null);
 
-// ✅ Сворачивание описания
+//  Сворачивание описания
 const COLLAPSED_HEIGHT = 320; // высота свёрнутого блока, px
 const descriptionRef = ref(null);
 const descriptionExpanded = ref(false);
@@ -424,12 +424,12 @@ const currentMedia = computed(() => {
     return null;
 });
 
-// ✅ Определяем, содержит ли описание HTML-теги
+//  Определяем, содержит ли описание HTML-теги
 const descriptionIsHtml = computed(() => {
     return /<[a-z!\/][^>]*>/i.test(property.value?.description || '');
 });
 
-// ✅ Замер реальной высоты описания и нужно ли сворачивать
+//  Замер реальной высоты описания и нужно ли сворачивать
 function measureDescription() {
     const el = descriptionRef.value;
     if (!el) return;
@@ -474,7 +474,7 @@ function scrollToBooking() {
     }
 }
 
-// ✅ Переход к секциям главной из футера
+//  Переход к секциям главной из футера
 function goToSection(sectionId) {
     router.push({ path: '/', hash: `#${sectionId}` }).catch(() => {});
 }

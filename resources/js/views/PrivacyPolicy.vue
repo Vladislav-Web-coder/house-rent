@@ -224,11 +224,11 @@
                     <ul class="list-disc pl-6 space-y-2">
                         <li>
                             по телефону:
-                            <a href="tel:+79999999999" class="text-[#d18a2a] hover:text-[#b5741d]">+7 (999) 999-99-99</a>;
+                            <a href="tel:+79111201382" class="text-[#d18a2a] hover:text-[#b5741d]">+7 (911) 120-13-82</a>;
                         </li>
                         <li>
                             по электронной почте:
-                            <a href="mailto:info@uyutnydom.ru" class="text-[#d18a2a] hover:text-[#b5741d]">info@uyutnydom.ru</a>;
+                            <a href="mailto:andreysavitsk@gmail.com" class="text-[#d18a2a] hover:text-[#b5741d]">andreysavitsk@gmail.com</a>;
                         </li>
                         <li>через форму обратной связи в разделе «Поддержка» на Сайте (иконка в правом нижнем углу).</li>
                     </ul>
@@ -281,7 +281,7 @@
         <footer class="bg-[#0c111c] text-white py-8 mt-16">
             <div class="container mx-auto px-6 text-center">
                 <p class="text-[#a89f92] text-sm">
-                    &copy; {{ new Date().getFullYear() }} УЮТНЫЙДОМ. Все права защищены.
+                    &copy; {{ new Date().getFullYear() }} Сказочная Карелия. Все права защищены.
                 </p>
             </div>
         </footer>

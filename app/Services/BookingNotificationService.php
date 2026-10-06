@@ -39,7 +39,6 @@ class BookingNotificationService
 
             Log::info('Уведомление клиенту поставлено в очередь', [
                 'booking_request_id' => $bookingRequest->id,
-                'email' => $bookingRequest->guest_email,
                 'contract_attached' => $contractPath !== null,
             ]);
 

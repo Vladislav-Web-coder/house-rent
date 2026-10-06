@@ -8,7 +8,7 @@
                 </span>
                 <h2 class="text-3xl md:text-5xl font-light text-[#fdf8ef]">Интересное рядом</h2>
                 <p class="text-[#a8b6bd] text-base md:text-lg mt-3 max-w-2xl mx-auto">
-                    Места, ради которых стоит остаться подольше — всё в шаговой доступности от вашего дома
+                    Места, ради которых стоит остаться подольше
                 </p>
             </div>
 
@@ -44,7 +44,7 @@
         {{ item.distance }}
     </span>
 
-                                    <!-- ✅ Стрелки внутри фото-колонки -->
+                                    <!--  Стрелки внутри фото-колонки -->
                                     <button
                                         @click.stop="prev"
                                         class="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-11 md:h-11 bg-white/90 hover:bg-[#e9a13b] hover:text-[#1a1206] text-[#251d12] rounded-full flex items-center justify-center shadow-lg transition-colors z-10"
@@ -107,7 +107,7 @@ const items = ref([
         id: 1,
         title: 'Горный парк «Рускеала»',
         description: 'Мраморный каньон с изумрудной водой и отвесными скалами. Бывший карьер, где добывали камень для Петербурга. Прогулки по тропам, лодки и подземные штольни.',
-        distance: '~40 км',
+        distance: '~37 км',
         location: 'п. Рускеала, Сортавальский район',
         image: '/images/nearby/ruskeala.jpg',
     },
@@ -115,7 +115,7 @@ const items = ref([
         id: 2,
         title: 'Исторический парк «Бастион»',
         description: 'Интерактивный музей под открытым небом на берегу Ладоги. Крепость викингов, мастер-классы и живая история — можно всё трогать и примерять.',
-        distance: '~5 км',
+        distance: '~7 км',
         location: 'г. Сортавала, набережная Ладоги',
         image: '/images/nearby/bastion.png',
     },
@@ -131,7 +131,7 @@ const items = ref([
         id: 4,
         title: 'Карельский зоопарк',
         description: 'Один из самых больших зоопарков России. Здесь живут медведи, волки, рыси, лоси и множество других животных. Отличный вариант для семейного дня и знакомства с северной природой.',
-        distance: '~100 км',
+        distance: '~56 км',
         location: 'п. Сяпся, Пряжинский район',
         image: '/images/nearby/zoo.jpg',
     },
@@ -139,7 +139,7 @@ const items = ref([
         id: 5,
         title: 'Остров Валаам',
         description: 'Легендарный архипелаг посреди Ладоги. Древний монастырь, скалистые берега, хвойные леса и особая северная атмосфера «Северного Афона».',
-        distance: '~45 км + теплоход',
+        distance: '~47 км',
         location: 'о. Валаам, Ладожское озеро',
         image: '/images/nearby/valaam.png',
     },
