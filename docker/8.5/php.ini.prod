@@ -1,0 +1,33 @@
+; php-fpm (FPM SAPI) для продакшена.
+; Отличия от Sail-варианта: нет xdebug/pcov, лимиты под загрузку видео 100 МБ,
+; ошибки не выводятся в браузер, сессии/кэш через redis (см. .env).
+
+[PHP]
+expose_php = Off
+display_errors = Off
+log_errors = On
+error_log = /proc/self/fd/2
+
+; Лимиты загрузки медиа (согласованы с nginx client_max_body_size 110M)
+file_uploads = On
+upload_max_filesize = 100M
+post_max_size = 105M
+max_input_time = 300
+max_input_vars = 5000
+memory_limit = 256M
+
+[Date]
+date.timezone = UTC
+
+[Session]
+session.cookie_httponly = 1
+session.cookie_secure = 1
+session.use_strict_mode = 1
+
+[opcache]
+opcache.enable = 1
+opcache.memory_consumption = 192
+opcache.interned_strings_buffer = 16
+opcache.max_accelerated_files = 20000
+opcache.validate_timestamps = 0
+opcache.realtime_protector_level = 0

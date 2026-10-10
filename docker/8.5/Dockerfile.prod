@@ -1,0 +1,66 @@
+# syntax=docker/dockerfile:1
+# Продакшен-образ приложения: Laravel 12 на php-fpm 8.3 (alpine) + ffmpeg для медиа.
+# Отличия от dev-образа docker/8.5/Dockerfile (Sail):
+#   - вместо `artisan serve` — php-fpm (пул docker/8.5/php-fpm.conf, порт 9000);
+#   - PHP 8.3 — стабильная ветка (8.5 из PPA ondrej — experimental-сборка);
+#   - composer install --no-dev --optimize-autoloader, без xdebug/pcov/pnpm/bun/yarn;
+#   - секреты не попадают в слои образа (.env и ключи остаются на хосте);
+#   - non-root пользователь www-data.
+# Фронтенд (vite build) собирается ОТДЕЛЬНЫМ stage'ом ниже и кладётся в public/build.
+
+# ---------- Стадия сборки фронтенда ----------
+FROM node:22-alpine AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY . .
+RUN npm run build
+
+# ---------- Основной образ ----------
+FROM php:8.3-fpm-alpine
+
+# Системные зависимости + ffmpeg (конвертация видео/миниатюр MediaLibrary).
+# dev-пакеты нужны только для компиляции расширений PHP — удаляются в конце слоя.
+RUN apk add --no-cache \
+        unzip ffmpeg supervisor \
+    && apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS linux-headers icu-dev libpng-dev libzip-dev oniguruma-dev postgresql-dev fcgi-dev \
+    && docker-php-ext-install -j"$(nproc)" \
+        pdo_pgsql pgsql bcmath intl gd zip opcache exif pcntl \
+    && apk del .build-deps unzip
+
+# Composer (для установки PHP-зависимостей на этапе сборки)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+# PHP-зависимости кэшируются отдельно от кода: слой пересобирается только при изменении composer.*
+COPY composer.json composer.lock ./
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install \
+        --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
+
+# Код приложения (без vendor/node_modules/.env — см. .dockerignore)
+COPY . .
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize --no-dev
+
+# Собранные Vite-ассеты из стадии frontend
+COPY --from=frontend /app/public/build public/build
+
+# Конфигурация продакшена (php-fpm пул + php.ini)
+COPY docker/8.5/php-fpm.conf /usr/local/etc/php-fpm.d/zz-laravel.conf
+COPY docker/8.5/php.ini.prod /usr/local/etc/conf.d/99-app.ini
+
+# Каталоги данных: во время работы перекрываются named-томами compose.prod.yaml
+RUN mkdir -p storage/app/public storage/framework/cache/data storage/framework/sessions \
+             storage/framework/views storage/logs bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R ug+rwx storage bootstrap/cache \
+    && rm -f public/hot \
+    && ln -sfn ../storage/app/public public/storage
+
+ENV APP_ENV=production
+
+USER www-data
+EXPOSE 9000
+
+CMD ["php-fpm", "-F"]

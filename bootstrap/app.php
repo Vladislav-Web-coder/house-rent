@@ -12,7 +12,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Приложение работает за обратным прокси (nginx в docker, поверх — Caddy на хосте).
+        // Без доверенных прокси Laravel считает IP клиента адресом docker-шлюза:
+        // throttle (например ical-export) и rate limit сессий «видят» одного нарушителя
+        // вместо реальных клиентов. Значение задаётся в .env (TRUSTED_PROXIES=* для docker-сети).
+        $middleware->trustProxies(
+            at: env('TRUSTED_PROXIES', '*'),
+            headers: Illuminate\Http\Request::HEADER_X_FORWARDED_FOR
+                | Illuminate\Http\Request::HEADER_X_FORWARDED_HOST
+                | Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO,
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Для API-запросов всегда отдаём JSON, включая fallback-маршрут:
